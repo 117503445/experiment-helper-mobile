@@ -1,52 +1,185 @@
 <template>
-    <view class="content">
-        <lab-item v-for="item in items" :properties="item.properties" :key="item.id"></lab-item>
-    </view>
+  <view class="content">
+    <lab-item
+      v-for="item in items"
+      :properties="item.properties"
+      :key="item.id"
+    ></lab-item>
+    <button @click="calculate">计算结果</button>
+  </view>
 </template>
 
 <script>
-    export default {
-        data() {
-            let uiItems = [{
-                "type": "textbox",
-                "properties": {
-                    "frontText": "hello",
-                    "backText": "-hello"
-                }
-            }, {
-                "type": "textbox",
-                "properties": {
-                    "frontText": "world",
-                    "backText": "-hello"
-                }
-            }]
-            for (let i = 0; i < uiItems.length; i++) {
-                uiItems[i]["id"] = i;
-            }
-            return {
-                title: 'Hello World',
-                items: uiItems
-            }
+export default {
+  data() {
+    let experiment = {
+      meta: {
+        name: "平凸透镜曲率半径的测量",
+        author: "117503445",
+        contributors: [],
+        version: "0.0.1",
+      },
+      logic: {
+        functions: {
+          this_D_m2_diff:
+            "(function(arr){let arr_r = [];for (let i = 0; i < 5; i++) {arr_r.push(arr[i] - arr[i + 5]);}return arr_r;})",
         },
-        onLoad() {
-
+        variables: [
+          {
+            name: "d_yiqi",
+            comment: "仪器不确定度",
+            source: {
+              type: "input",
+              default: 0.004,
+            },
+          },
+          {
+            name: "λ",
+            comment: "波长",
+            source: {
+              type: "input",
+              default: 589.3,
+            },
+          },
+          {
+            name: "D_l",
+            comment: "D 左",
+            source: {
+              type: "input",
+              default: [
+                19.987, 20.069, 20.153, 20.251, 20.348, 20.421, 20.523, 20.625,
+                20.728,
+              ],
+            },
+          },
+          {
+            name: "D_r",
+            comment: "D 右",
+            source: {
+              type: "input",
+              default: [
+                27.138, 27.061, 26.971, 26.866, 26.783, 26.685, 26.595, 26.487,
+                26.379, 26.268,
+              ],
+            },
+          },
+          {
+            name: "D_m",
+            comment: "m 级 暗环直径",
+            source: {
+              type: "mathjs",
+              expression: "D_r-D_l",
+            },
+          },
+          {
+            name: "D_m2",
+            comment: "m 级 暗环直径的平方",
+            source: {
+              type: "mathjs",
+              expression: "D_m.^2",
+            },
+          },
+          {
+            name: "D_m2_diff",
+            comment: "m 级 暗环直径的平方的差分",
+            source: {
+              type: "mathjs",
+              expression: "this_D_m2_diff(D_m2)",
+            },
+          },
+          {
+            name: "D_m2_diff_a",
+            comment: "m 级 暗环直径的平方的差分的平均值 mm^2",
+            source: {
+              type: "mathjs-suffix",
+            },
+          },
+          {
+            name: "D_m2_diff_u",
+            comment: "m 级 暗环直径的平方的差分的不确定度 mm^2",
+            source: {
+              type: "mathjs",
+              expression:
+                "sqrt(sum((D_m2_diff-mean(D_m2_diff)).^2)/5 + (d_yiqi*sqrt(3))^2)",
+            },
+          },
+          {
+            name: "R",
+            comment: "曲率半径 m",
+            source: {
+              type: "mathjs",
+              expression: "D_m2_diff_a / (4 * 5 * λ * 0.001)",
+            },
+          },
+          {
+            name: "R_u",
+            comment: "曲率半径的不确定度 mm",
+            source: {
+              type: "mathjs",
+              expression: "D_m2_diff_u / (4 * 5 * λ) * 1000000",
+            },
+          },
+        ],
+      },
+      ui: [
+        {
+          type: "textbox",
+          properties: {
+            variableName: "d_yiqi",
+            frontText: "𝚫仪=",
+            backText: "mm",
+          },
         },
-        methods: {
+        {
+          type: "textbox",
+          properties: {
+            variableName: "λ",
+            frontText: "λ=",
+            backText: " nm",
+          },
+        },
+      ],
+    };
 
-        }
+    let uiItems = experiment["ui"];
+
+    let dictNameVariable = {};
+    for (const variable of experiment["logic"]["variables"]) {
+      dictNameVariable[variable["name"]] = variable;
     }
+
+    for (let i = 0; i < uiItems.length; i++) {
+      uiItems[i]["id"] = i;
+      let name = uiItems[i]["properties"]["variableName"];
+
+      uiItems[i]["properties"]["value"] =
+        dictNameVariable[name]["source"]["default"];
+    }
+    return {
+      title: "Hello World",
+      items: uiItems,
+    };
+  },
+  onLoad() {},
+  methods: {
+
+    calculate() {
+      console.log(JSON.stringify(this.items));
+    },
+  },
+};
 </script>
 
 <style>
-    .content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-    .text-area {
-        display: flex;
-        justify-content: center;
-    }
+.text-area {
+  display: flex;
+  justify-content: center;
+}
 </style>

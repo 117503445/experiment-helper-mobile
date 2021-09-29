@@ -3,6 +3,7 @@
     <lab-item
       v-for="item in items"
       :properties="item.properties"
+      :type="item.type"
       :key="item.id"
     ></lab-item>
     <button @click="calculate">计算结果</button>
@@ -138,6 +139,10 @@ export default {
             backText: " nm",
           },
         },
+        {
+          type: "table",
+          properties: {},
+        },
       ],
     };
 
@@ -150,10 +155,12 @@ export default {
 
     for (let i = 0; i < uiItems.length; i++) {
       uiItems[i]["id"] = i;
-      let name = uiItems[i]["properties"]["variableName"];
 
-      uiItems[i]["properties"]["value"] =
-        dictNameVariable[name]["source"]["default"];
+      if (uiItems[i]["type"] === "textbox") {
+        let name = uiItems[i]["properties"]["variableName"];
+        uiItems[i]["properties"]["value"] =
+          dictNameVariable[name]["source"]["default"];
+      }
     }
     return {
       title: "Hello World",
@@ -162,7 +169,6 @@ export default {
   },
   onLoad() {},
   methods: {
-
     calculate() {
       console.log(JSON.stringify(this.items));
     },

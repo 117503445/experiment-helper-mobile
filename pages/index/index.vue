@@ -49,7 +49,7 @@ export default {
               type: "input",
               default: [
                 19.987, 20.069, 20.153, 20.251, 20.348, 20.421, 20.523, 20.625,
-                20.728,
+                20.728, 20.831,
               ],
             },
           },
@@ -141,7 +141,10 @@ export default {
         },
         {
           type: "table",
-          properties: {},
+          properties: {
+            width: 6,
+            height: 11,
+          },
         },
       ],
     };
@@ -160,6 +163,18 @@ export default {
         let name = uiItems[i]["properties"]["variableName"];
         uiItems[i]["properties"]["value"] =
           dictNameVariable[name]["source"]["default"];
+      } else if (uiItems[i]["type"] === "table") {
+        let values = [];
+        for (
+          let j = 0;
+          j <
+          uiItems[i]["properties"]["width"] *
+            uiItems[i]["properties"]["height"];
+          j++
+        ) {
+          values.push({ id: j, value: "" });
+        }
+        uiItems[i]["properties"]["values"] = values;
       }
     }
     return {

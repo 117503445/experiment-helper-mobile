@@ -1,22 +1,18 @@
 <template name="lab-table">
-  <uni-grid :column="3" style="width: 200px; height: 100px" :square="false">
-    <uni-grid-item>
-      <text class="text">文本</text>
-    </uni-grid-item>
-    <uni-grid-item>
-      <text class="text">文本</text>
-    </uni-grid-item>
-    <uni-grid-item>
-      <text class="text">文本</text>
-    </uni-grid-item>
-    <uni-grid-item>
-      <text class="text">文本</text>
-    </uni-grid-item>
-    <uni-grid-item>
-      <text class="text">文本</text>
-    </uni-grid-item>
-    <uni-grid-item>
-      <text class="text">文本</text>
+  <uni-grid
+    style="width: 300px; height: 300px"
+    :column="properties.width"
+    :square="false"
+  >
+    <uni-grid-item
+      v-for="item in properties.values"
+      style="min-height: 20px; height: 20px"
+      :key="item.id"
+    >
+      <input
+        type="text"
+        v-model="item.value"
+      />
     </uni-grid-item>
   </uni-grid>
 </template>
@@ -30,4 +26,7 @@ export default {
 </script>
 
 <style>
+input {
+  display: inline-block;
+}
 </style>

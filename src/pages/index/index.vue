@@ -11,6 +11,9 @@
 </template>
 
 <script>
+function posToIndex(x, y, width) {
+  return y - 1 + (x - 1) * width;
+}
 export default {
   data() {
     let experiment = {
@@ -193,9 +196,6 @@ export default {
       ],
     };
 
-    function posToIndex(x, y, width) {
-      return y - 1 + (x - 1) * width;
-    }
     // console.log(posToIndex(3, 2, 5));
 
     let uiItems = experiment["ui"];
@@ -293,8 +293,37 @@ export default {
             ) {
               continue;
             }
-            //todo bind table
+            console.log("c", JSON.stringify(c));
+            let value = [];
             console.log("bind", JSON.stringify(bind));
+
+            if (bind["start"] == bind["end"]) {
+              // todo
+            } else if (bind["start"][0] == bind["end"][0]) {
+              let x = bind["start"][0];
+              for (let j = 0; j < bind["end"][1] - bind["start"][1] + 1; j++) {
+                let y = bind["start"][1] + j;
+                value.push(
+                  c["properties"]["values"][
+                    posToIndex(x, y, c["properties"]["width"])
+                  ]["value"]
+                );
+              }
+            } else if (bind["start"][1] == bind["end"][1]) {
+              let y = bind["start"][1];
+              for (let j = 0; j < bind["end"][0] - bind["start"][0] + 1; j++) {
+                let x = bind["start"][0] + j;
+                console.log("pos", posToIndex(x, y, c["properties"]["width"]));
+                value.push(
+                  c["properties"]["values"][
+                    posToIndex(x, y, c["properties"]["width"])
+                  ]["value"]
+                );
+              }
+            } else {
+              console.log("start end 不合法", bind);
+            }
+            std_input[bind["name"]] = value;
           }
         }
       }

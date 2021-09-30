@@ -1,6 +1,6 @@
 <template name="lab-table">
   <uni-grid
-    style="width: 300px; height: 300px"
+    style="width: 600px; height: 300px"
     :column="properties.width"
     :square="false"
   >

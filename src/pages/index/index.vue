@@ -246,7 +246,7 @@ export default {
               let y = bind["start"][1] + j;
               values[posToIndex(x, y, uiItems[i]["properties"]["width"])][
                 "value"
-              ] = defaultValue[j];
+              ] = defaultValue[j]; // todo convert to string
             }
           } else if (bind["start"][1] == bind["end"][1]) {
             let y = bind["start"][1];
@@ -261,18 +261,44 @@ export default {
           }
         }
         uiItems[i]["properties"]["values"] = values;
-        console.log("values", JSON.stringify(values));
+        // console.log("values", JSON.stringify(values));
       }
     }
     return {
       title: "Hello World",
       items: uiItems,
+      experiment: experiment,
     };
   },
   onLoad() {},
   methods: {
     calculate() {
+      let std_input = {};
+
+      let dictNameVariable = {};
+      for (const variable of this.experiment["logic"]["variables"]) {
+        dictNameVariable[variable["name"]] = variable;
+      }
+
       console.log(JSON.stringify(this.items));
+      console.log(JSON.stringify(this.experiment));
+      for (const c of this.experiment["ui"]) {
+        if (c["type"] == "textbox") {
+          std_input[c["properties"]["variableName"]] = c["properties"]["value"];
+        } else if (c["type"] == "table") {
+          for (const bind of c["properties"]["binds"]) {
+            if (
+              bind["type"] != "variable" ||
+              dictNameVariable[bind["name"]]["source"]["type"] != "input"
+            ) {
+              continue;
+            }
+            //todo bind table
+            console.log("bind", JSON.stringify(bind));
+          }
+        }
+      }
+      console.log(std_input);
     },
   },
 };

@@ -14,6 +14,8 @@
 function posToIndex(x, y, width) {
   return y - 1 + (x - 1) * width;
 }
+import { process_input } from "./parser";
+
 export default {
   data() {
     let experiment = {
@@ -280,8 +282,8 @@ export default {
         dictNameVariable[variable["name"]] = variable;
       }
 
-      console.log(JSON.stringify(this.items));
-      console.log(JSON.stringify(this.experiment));
+      // console.log(JSON.stringify(this.items));
+      // console.log(JSON.stringify(this.experiment));
       for (const c of this.experiment["ui"]) {
         if (c["type"] == "textbox") {
           std_input[c["properties"]["variableName"]] = c["properties"]["value"];
@@ -293,9 +295,9 @@ export default {
             ) {
               continue;
             }
-            console.log("c", JSON.stringify(c));
+            // console.log("c", JSON.stringify(c));
             let value = [];
-            console.log("bind", JSON.stringify(bind));
+            // console.log("bind", JSON.stringify(bind));
 
             if (bind["start"] == bind["end"]) {
               // todo
@@ -313,7 +315,7 @@ export default {
               let y = bind["start"][1];
               for (let j = 0; j < bind["end"][0] - bind["start"][0] + 1; j++) {
                 let x = bind["start"][0] + j;
-                console.log("pos", posToIndex(x, y, c["properties"]["width"]));
+                // console.log("pos", posToIndex(x, y, c["properties"]["width"]));
                 value.push(
                   c["properties"]["values"][
                     posToIndex(x, y, c["properties"]["width"])
@@ -327,7 +329,49 @@ export default {
           }
         }
       }
-      console.log(std_input);
+      console.log("std_input", std_input);
+      let result = process_input(this.experiment["logic"], std_input);
+      console.log(result);
+      console.log(JSON.stringify(result));
+      for (const c of this.experiment["ui"]) {
+        if (c["type"] == "table") {
+          for (const bind of c["properties"]["binds"]) {
+            if (
+              bind["type"] != "variable" ||
+              dictNameVariable[bind["name"]]["source"]["type"] == "input"
+            ) {
+              continue;
+            }
+            // console.log("c", JSON.stringify(c));
+            let value = result[bind["name"]];
+            // console.log("bind", JSON.stringify(bind));
+
+            if (bind["start"] == bind["end"]) {
+              // todo
+            } else if (bind["start"][0] == bind["end"][0]) {
+              let x = bind["start"][0];
+              for (let j = 0; j < bind["end"][1] - bind["start"][1] + 1; j++) {
+                let y = bind["start"][1] + j;
+                c["properties"]["values"][
+                  posToIndex(x, y, c["properties"]["width"])
+                ]["value"] = value[j];
+              }
+            } else if (bind["start"][1] == bind["end"][1]) {
+              let y = bind["start"][1];
+              for (let j = 0; j < bind["end"][0] - bind["start"][0] + 1; j++) {
+                let x = bind["start"][0] + j;
+                // console.log("pos", posToIndex(x, y, c["properties"]["width"]));
+
+                c["properties"]["values"][
+                  posToIndex(x, y, c["properties"]["width"])
+                ]["value"] = value[j];
+              }
+            } else {
+              console.log("start end 不合法", bind);
+            }
+          }
+        }
+      }
     },
   },
 };

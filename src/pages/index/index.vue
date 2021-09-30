@@ -144,10 +144,35 @@ export default {
           properties: {
             width: 6,
             height: 11,
+            binds: [
+              {
+                type: "variable",
+                name: "D_l",
+                start: [2, 2],
+                end: [11, 2],
+              },
+              {
+                type: "constant",
+                value: ["暗环/𝑘", "𝐷左", "𝐷右", "𝐷ₘ/𝑚𝑚", "𝐷²ₘ", "𝐷²ₘ-𝐷²ₘ₋₅"],
+                start: [1, 1],
+                end: [1, 6],
+              },
+              {
+                type: "constant",
+                value: [20, 19, 18, 17, 16, 15, 14, 13, 12, 11],
+                start: [2, 1],
+                end: [11, 1],
+              },
+            ],
           },
         },
       ],
     };
+
+    function posToIndex(x, y, width) {
+      return y - 1 + (x - 1) * width;
+    }
+    // console.log(posToIndex(3, 2, 5));
 
     let uiItems = experiment["ui"];
 
@@ -174,7 +199,38 @@ export default {
         ) {
           values.push({ id: j, value: "" });
         }
+        for (const bind of uiItems[i]["properties"]["binds"]) {
+          let defaultValue;
+          if (bind["type"] == "variable") {
+            defaultValue = dictNameVariable[bind["name"]]["source"]["default"];
+          } else if (bind["type"] == "constant") {
+            defaultValue = bind["value"];
+          }
+
+          if (bind["start"] == bind["end"]) {
+            // todo
+          } else if (bind["start"][0] == bind["end"][0]) {
+            let x = bind["start"][0];
+            for (let j = 0; j < defaultValue.length; j++) {
+              let y = bind["start"][1] + j;
+              values[posToIndex(x, y, uiItems[i]["properties"]["width"])][
+                "value"
+              ] = defaultValue[j];
+            }
+          } else if (bind["start"][1] == bind["end"][1]) {
+            let y = bind["start"][1];
+            for (let j = 0; j < defaultValue.length; j++) {
+              let x = bind["start"][0] + j;
+              values[posToIndex(x, y, uiItems[i]["properties"]["width"])][
+                "value"
+              ] = defaultValue[j];
+            }
+          } else {
+            console.log("start end 不合法", bind);
+          }
+        }
         uiItems[i]["properties"]["values"] = values;
+        console.log("values", JSON.stringify(values));
       }
     }
     return {

@@ -146,12 +146,6 @@ export default {
             height: 11,
             binds: [
               {
-                type: "variable",
-                name: "D_l",
-                start: [2, 2],
-                end: [11, 2],
-              },
-              {
                 type: "constant",
                 value: ["暗环/𝑘", "𝐷左", "𝐷右", "𝐷ₘ/𝑚𝑚", "𝐷²ₘ", "𝐷²ₘ-𝐷²ₘ₋₅"],
                 start: [1, 1],
@@ -162,6 +156,36 @@ export default {
                 value: [20, 19, 18, 17, 16, 15, 14, 13, 12, 11],
                 start: [2, 1],
                 end: [11, 1],
+              },
+              {
+                type: "variable",
+                name: "D_l",
+                start: [2, 2],
+                end: [11, 2],
+              },
+              {
+                type: "variable",
+                name: "D_r",
+                start: [2, 3],
+                end: [11, 3],
+              },
+              {
+                type: "variable",
+                name: "D_m",
+                start: [2, 4],
+                end: [11, 4],
+              },
+              {
+                type: "variable",
+                name: "D_m2",
+                start: [2, 5],
+                end: [11, 5],
+              },
+              {
+                type: "variable",
+                name: "D_m2_diff",
+                start: [2, 6],
+                end: [11, 6],
               },
             ],
           },
@@ -200,6 +224,13 @@ export default {
           values.push({ id: j, value: "" });
         }
         for (const bind of uiItems[i]["properties"]["binds"]) {
+          if (
+            bind["type"] == "variable" &&
+            dictNameVariable[bind["name"]]["source"]["type"] != "input"
+          ) {
+            continue;
+          }
+
           let defaultValue;
           if (bind["type"] == "variable") {
             defaultValue = dictNameVariable[bind["name"]]["source"]["default"];

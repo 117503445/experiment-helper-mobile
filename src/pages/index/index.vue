@@ -16,10 +16,12 @@ function posToIndex(x, y, width) {
 }
 function isTextBox(type) {
   return (
-    type == "textbox" || type == "input-textbox" || type == "output-textboxÎ"
+    type == "textbox" || type == "input-textbox" || type == "output-textbox"
   );
 }
 import { process_input } from "./parser";
+
+// TODO UI 限制小数位数
 
 export default {
   data() {
@@ -200,6 +202,38 @@ export default {
             ],
           },
         },
+        {
+          type: "textbox",
+          properties: {
+            variableName: "D_m2_diff_a",
+            frontText: "𝐷²ₘ-𝐷²ₘ₋₅平均值",
+            backText: "𝑚𝑚²",
+          },
+        },
+        {
+          type: "textbox",
+          properties: {
+            variableName: "D_m2_diff_u",
+            frontText: "𝐷²ₘ-𝐷²ₘ₋₅A类不确定度",
+            backText: "𝑚𝑚²",
+          },
+        },
+        {
+          type: "textbox",
+          properties: {
+            variableName: "R_u",
+            frontText: "R综合不确定度",
+            backText: "𝑚𝑚",
+          },
+        },
+        {
+          type: "textbox",
+          properties: {
+            variableName: "R",
+            frontText: "曲率半径：𝑅=",
+            backText: "𝑚",
+          },
+        },
       ],
     };
 
@@ -214,7 +248,10 @@ export default {
     for (let uiItem of uiItems) {
       if (uiItem.type == "textbox") {
         // console.log(JSON.stringify(uiItem));
-        if (dictNameVariable[uiItem.properties.variableName].source.type == "input") {
+        if (
+          dictNameVariable[uiItem.properties.variableName].source.type ==
+          "input"
+        ) {
           uiItem.type = "input-textbox";
         } else {
           uiItem.type = "output-textbox";
@@ -385,8 +422,12 @@ export default {
               console.log("start end 不合法", bind);
             }
           }
+        } else if (c["type"] == "output-textbox") {
+          console.log("c", JSON.stringify(c));
+          c["properties"]["value"] = result[c["properties"]["variableName"]]
         }
       }
+      console.log("items", JSON.stringify(this.items));
     },
   },
 };

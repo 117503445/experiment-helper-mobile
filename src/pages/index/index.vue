@@ -14,6 +14,11 @@
 function posToIndex(x, y, width) {
   return y - 1 + (x - 1) * width;
 }
+function isTextBox(type) {
+  return (
+    type == "textbox" || type == "input-textbox" || type == "output-textboxÎ"
+  );
+}
 import { process_input } from "./parser";
 
 export default {
@@ -200,17 +205,27 @@ export default {
 
     // console.log(posToIndex(3, 2, 5));
 
-    let uiItems = experiment["ui"];
-
     let dictNameVariable = {};
     for (const variable of experiment["logic"]["variables"]) {
       dictNameVariable[variable["name"]] = variable;
     }
 
+    let uiItems = experiment["ui"];
+    for (let uiItem of uiItems) {
+      if (uiItem.type == "textbox") {
+        // console.log(JSON.stringify(uiItem));
+        if (dictNameVariable[uiItem.properties.variableName].source.type == "input") {
+          uiItem.type = "input-textbox";
+        } else {
+          uiItem.type = "output-textbox";
+        }
+      }
+    }
+
     for (let i = 0; i < uiItems.length; i++) {
       uiItems[i]["id"] = i;
 
-      if (uiItems[i]["type"] === "textbox") {
+      if (isTextBox(uiItems[i]["type"])) {
         let name = uiItems[i]["properties"]["variableName"];
         uiItems[i]["properties"]["value"] =
           dictNameVariable[name]["source"]["default"];
@@ -285,7 +300,7 @@ export default {
       // console.log(JSON.stringify(this.items));
       // console.log(JSON.stringify(this.experiment));
       for (const c of this.experiment["ui"]) {
-        if (c["type"] == "textbox") {
+        if (isTextBox(c["type"])) {
           std_input[c["properties"]["variableName"]] = c["properties"]["value"];
         } else if (c["type"] == "table") {
           for (const bind of c["properties"]["binds"]) {

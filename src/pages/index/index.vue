@@ -11,11 +11,12 @@
 </template>
 
 <script>
-
-import jsonData from "./刚体转动惯量的测量.json"
+import jsonData from "./刚体转动惯量的测量.json";
 
 function posToIndex(x, y, width) {
-  // todo y 的范围判断
+  if (y > width || y < 0) {
+    console.error("不合法的 y", y);
+  }
   return y - 1 + (x - 1) * width;
 }
 function isTextBox(type) {
@@ -85,8 +86,12 @@ export default {
             defaultValue = bind["value"];
           }
 
-          if (bind["start"] == bind["end"]) {
-            // todo
+          if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
+            let x = bind["start"][0];
+            let y = bind["start"][1];
+            values[posToIndex(x, y, uiItems[i]["properties"]["width"])][
+              "value"
+            ] = defaultValue;
           } else if (bind["start"][0] == bind["end"][0]) {
             let x = bind["start"][0];
             for (let j = 0; j < defaultValue.length; j++) {
@@ -144,8 +149,12 @@ export default {
             let value = [];
             // console.log("bind", JSON.stringify(bind));
 
-            if (bind["start"] == bind["end"]) {
-              // todo
+            if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
+              let x = bind["start"][0];
+              let y = bind["start"][1];
+              value =           c["properties"]["values"][
+                    posToIndex(x, y, c["properties"]["width"])
+                  ]["value"]
             } else if (bind["start"][0] == bind["end"][0]) {
               let x = bind["start"][0];
               for (let j = 0; j < bind["end"][1] - bind["start"][1] + 1; j++) {
@@ -190,9 +199,12 @@ export default {
             // console.log("c", JSON.stringify(c));
             let value = result[bind["name"]];
             // console.log("bind", JSON.stringify(bind));
-
-            if (bind["start"] == bind["end"]) {
-              // todo
+            if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
+              let x = bind["start"][0];
+              let y = bind["start"][1];
+              c["properties"]["values"][
+                  posToIndex(x, y, c["properties"]["width"])
+                ]["value"] = value;
             } else if (bind["start"][0] == bind["end"][0]) {
               let x = bind["start"][0];
               for (let j = 0; j < bind["end"][1] - bind["start"][1] + 1; j++) {

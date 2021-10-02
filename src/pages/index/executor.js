@@ -47,16 +47,12 @@ function getParser(functions) {
   return parser;
 }
 
-export function process_input(logic, std_input) {
-  let variables = logic["variables"];
-  let functions = logic["functions"];
+export function execute(logic, std_input) {
+  const parser = getParser(logic["functions"]);
 
-  const parser = getParser(functions);
+  let stdOutput = {};
 
-  let result = {};
-
-  for (let x of variables) {
-    // console.log('x', x);
+  for (let x of logic["variables"]) {
     switch (x["source"]["type"]) {
       case "input":
         if (x["name"] in std_input) {
@@ -93,13 +89,13 @@ export function process_input(logic, std_input) {
     }
 
     if (typeof x["value"] != "string") {
-      result[x["name"]] = math.string(x["value"]);
+      stdOutput[x["name"]] = math.string(x["value"]);
       parser.set(x["name"], math.bignumber(x["value"]));
     } else {
-      result[x["name"]] = x["value"];
+      stdOutput[x["name"]] = x["value"];
       parser.set(x["name"], x["value"]);
     }
   }
 
-  return result;
+  return stdOutput;
 }

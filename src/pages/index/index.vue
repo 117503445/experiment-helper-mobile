@@ -17,7 +17,7 @@ function posToIndex(x, y, width) {
 function isTextBox(type) {
   return type == "textbox" || type == "input-textbox" || type == "output-textbox";
 }
-import { process_input } from "./parser";
+import { execute } from "./executor";
 
 // TODO UI 限制小数位数
 
@@ -145,7 +145,7 @@ export default {
         }
       }
       console.log("std_input", std_input);
-      let result = process_input(this.experiment["logic"], std_input);
+      let result = execute(this.experiment["logic"], std_input);
       console.log(result);
       console.log(JSON.stringify(result));
       for (const c of this.experiment["ui"]) {

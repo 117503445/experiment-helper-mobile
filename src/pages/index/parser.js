@@ -1,46 +1,57 @@
 const mathjs = require("mathjs");
 const math = mathjs.create(mathjs.all, { number: "BigNumber" });
 
-function smartlab_ua(arr) {
-  let n = arr.length;
+function getParser(functions) {
+  function smartlab_ua(arr) {
+    let n = arr.length;
 
-  let t_factor = [0, 0, 1.84, 1.32, 1.2, 1.14];
-  let t;
-  if (n < 6) {
-    t = t_factor[n];
-  } else {
-    t = 1;
+    let t_factor = [0, 0, 1.84, 1.32, 1.2, 1.14];
+    let t;
+    if (n < 6) {
+      t = t_factor[n];
+    } else {
+      t = 1;
+    }
+
+    let avernum = mathjs.mean(arr);
+    let s = 0; //残差平方之和
+    for (const v of arr) {
+      s += mathjs.pow(v - avernum, 2);
+    }
+
+    let sx = mathjs.sqrt(s / ((n - 1) * n)) * t;
+    return sx;
   }
 
-  let avernum = mathjs.mean(arr);
-  let s = 0; //残差平方之和
-  for (const v of arr) {
-    s += mathjs.pow(v - avernum, 2);
+  function smartlab_u(arr, uncertainty_yq) {
+    let uncertainty_a = smartlab_ua(arr);
+    return Math.sqrt(Math.pow(uncertainty_a, 2) + Math.pow(uncertainty_yq, 2) / 6);
   }
 
-  let sx = mathjs.sqrt(s / ((n - 1) * n)) * t;
-  return sx;
-}
+  const parser = math.parser();
 
-function smartlab_u(arr, uncertainty_yq) {
-  let uncertainty_a = smartlab_ua(arr);
-  return Math.sqrt(Math.pow(uncertainty_a, 2) + Math.pow(uncertainty_yq, 2) / 6);
+  const internal = {
+    smartlab_g: math.bignumber(9.8),
+    smartlab_ua: smartlab_ua,
+    smartlab_u: smartlab_u
+  };
+
+  for (let fName in internal) {
+    parser.set(fName, internal[fName]);
+  }
+
+  for (let fName in functions) {
+    parser.set(fName, eval(functions[fName]));
+  }
+
+  return parser;
 }
 
 export function process_input(logic, std_input) {
   let variables = logic["variables"];
   let functions = logic["functions"];
 
-  const parser = math.parser();
-
-  parser.set("smartlab_g", math.bignumber(9.8));
-
-  parser.set("smartlab_ua", smartlab_ua);
-  parser.set("smartlab_u", smartlab_u);
-
-  for (let fName in functions) {
-    parser.set(fName, eval(functions[fName]));
-  }
+  const parser = getParser(functions);
 
   let result = {};
 

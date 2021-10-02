@@ -12,9 +12,10 @@
 
 <script>
 
-import jsonData from "./平凸透镜曲率半径的测量.json"
+import jsonData from "./刚体转动惯量的测量.json"
 
 function posToIndex(x, y, width) {
+  // todo y 的范围判断
   return y - 1 + (x - 1) * width;
 }
 function isTextBox(type) {

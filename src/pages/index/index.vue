@@ -1,11 +1,6 @@
 <template>
   <view class="content">
-    <lab-item
-      v-for="item in items"
-      :properties="item.properties"
-      :type="item.type"
-      :key="item.id"
-    ></lab-item>
+    <lab-item v-for="item in items" :properties="item.properties" :type="item.type" :key="item.id"></lab-item>
     <button @click="calculate">计算结果</button>
   </view>
 </template>
@@ -20,9 +15,7 @@ function posToIndex(x, y, width) {
   return y - 1 + (x - 1) * width;
 }
 function isTextBox(type) {
-  return (
-    type == "textbox" || type == "input-textbox" || type == "output-textbox"
-  );
+  return type == "textbox" || type == "input-textbox" || type == "output-textbox";
 }
 import { process_input } from "./parser";
 
@@ -42,10 +35,7 @@ export default {
     for (let uiItem of uiItems) {
       if (uiItem.type == "textbox") {
         // console.log(JSON.stringify(uiItem));
-        if (
-          dictNameVariable[uiItem.properties.variableName].source.type ==
-          "input"
-        ) {
+        if (dictNameVariable[uiItem.properties.variableName].source.type == "input") {
           uiItem.type = "input-textbox";
         } else {
           uiItem.type = "output-textbox";
@@ -58,24 +48,14 @@ export default {
 
       if (isTextBox(uiItems[i]["type"])) {
         let name = uiItems[i]["properties"]["variableName"];
-        uiItems[i]["properties"]["value"] =
-          dictNameVariable[name]["source"]["default"];
+        uiItems[i]["properties"]["value"] = dictNameVariable[name]["source"]["default"];
       } else if (uiItems[i]["type"] === "table") {
         let values = [];
-        for (
-          let j = 0;
-          j <
-          uiItems[i]["properties"]["width"] *
-            uiItems[i]["properties"]["height"];
-          j++
-        ) {
+        for (let j = 0; j < uiItems[i]["properties"]["width"] * uiItems[i]["properties"]["height"]; j++) {
           values.push({ id: j, value: "" });
         }
         for (const bind of uiItems[i]["properties"]["binds"]) {
-          if (
-            bind["type"] == "variable" &&
-            dictNameVariable[bind["name"]]["source"]["type"] != "input"
-          ) {
+          if (bind["type"] == "variable" && dictNameVariable[bind["name"]]["source"]["type"] != "input") {
             continue;
           }
 
@@ -89,24 +69,18 @@ export default {
           if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
             let x = bind["start"][0];
             let y = bind["start"][1];
-            values[posToIndex(x, y, uiItems[i]["properties"]["width"])][
-              "value"
-            ] = defaultValue;
+            values[posToIndex(x, y, uiItems[i]["properties"]["width"])]["value"] = defaultValue;
           } else if (bind["start"][0] == bind["end"][0]) {
             let x = bind["start"][0];
             for (let j = 0; j < defaultValue.length; j++) {
               let y = bind["start"][1] + j;
-              values[posToIndex(x, y, uiItems[i]["properties"]["width"])][
-                "value"
-              ] = defaultValue[j]; // todo convert to string
+              values[posToIndex(x, y, uiItems[i]["properties"]["width"])]["value"] = defaultValue[j]; // todo convert to string
             }
           } else if (bind["start"][1] == bind["end"][1]) {
             let y = bind["start"][1];
             for (let j = 0; j < defaultValue.length; j++) {
               let x = bind["start"][0] + j;
-              values[posToIndex(x, y, uiItems[i]["properties"]["width"])][
-                "value"
-              ] = defaultValue[j];
+              values[posToIndex(x, y, uiItems[i]["properties"]["width"])]["value"] = defaultValue[j];
             }
           } else {
             console.log("start end 不合法", bind);
@@ -119,7 +93,7 @@ export default {
     return {
       title: "Hello World",
       items: uiItems,
-      experiment: experiment,
+      experiment: experiment
     };
   },
   onLoad() {},
@@ -139,10 +113,7 @@ export default {
           std_input[c["properties"]["variableName"]] = c["properties"]["value"];
         } else if (c["type"] == "table") {
           for (const bind of c["properties"]["binds"]) {
-            if (
-              bind["type"] != "variable" ||
-              dictNameVariable[bind["name"]]["source"]["type"] != "input"
-            ) {
+            if (bind["type"] != "variable" || dictNameVariable[bind["name"]]["source"]["type"] != "input") {
               continue;
             }
             // console.log("c", JSON.stringify(c));
@@ -152,29 +123,19 @@ export default {
             if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
               let x = bind["start"][0];
               let y = bind["start"][1];
-              value =           c["properties"]["values"][
-                    posToIndex(x, y, c["properties"]["width"])
-                  ]["value"]
+              value = c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"];
             } else if (bind["start"][0] == bind["end"][0]) {
               let x = bind["start"][0];
               for (let j = 0; j < bind["end"][1] - bind["start"][1] + 1; j++) {
                 let y = bind["start"][1] + j;
-                value.push(
-                  c["properties"]["values"][
-                    posToIndex(x, y, c["properties"]["width"])
-                  ]["value"]
-                );
+                value.push(c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"]);
               }
             } else if (bind["start"][1] == bind["end"][1]) {
               let y = bind["start"][1];
               for (let j = 0; j < bind["end"][0] - bind["start"][0] + 1; j++) {
                 let x = bind["start"][0] + j;
                 // console.log("pos", posToIndex(x, y, c["properties"]["width"]));
-                value.push(
-                  c["properties"]["values"][
-                    posToIndex(x, y, c["properties"]["width"])
-                  ]["value"]
-                );
+                value.push(c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"]);
               }
             } else {
               console.log("start end 不合法", bind);
@@ -190,10 +151,7 @@ export default {
       for (const c of this.experiment["ui"]) {
         if (c["type"] == "table") {
           for (const bind of c["properties"]["binds"]) {
-            if (
-              bind["type"] != "variable" ||
-              dictNameVariable[bind["name"]]["source"]["type"] == "input"
-            ) {
+            if (bind["type"] != "variable" || dictNameVariable[bind["name"]]["source"]["type"] == "input") {
               continue;
             }
             // console.log("c", JSON.stringify(c));
@@ -202,16 +160,12 @@ export default {
             if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
               let x = bind["start"][0];
               let y = bind["start"][1];
-              c["properties"]["values"][
-                  posToIndex(x, y, c["properties"]["width"])
-                ]["value"] = value;
+              c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"] = value;
             } else if (bind["start"][0] == bind["end"][0]) {
               let x = bind["start"][0];
               for (let j = 0; j < bind["end"][1] - bind["start"][1] + 1; j++) {
                 let y = bind["start"][1] + j;
-                c["properties"]["values"][
-                  posToIndex(x, y, c["properties"]["width"])
-                ]["value"] = value[j];
+                c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"] = value[j];
               }
             } else if (bind["start"][1] == bind["end"][1]) {
               let y = bind["start"][1];
@@ -219,9 +173,7 @@ export default {
                 let x = bind["start"][0] + j;
                 // console.log("pos", posToIndex(x, y, c["properties"]["width"]));
 
-                c["properties"]["values"][
-                  posToIndex(x, y, c["properties"]["width"])
-                ]["value"] = value[j];
+                c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"] = value[j];
               }
             } else {
               console.log("start end 不合法", bind);
@@ -233,8 +185,8 @@ export default {
         }
       }
       console.log("items", JSON.stringify(this.items));
-    },
-  },
+    }
+  }
 };
 </script>
 

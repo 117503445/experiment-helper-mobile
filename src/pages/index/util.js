@@ -4,3 +4,6 @@ export function p(...params) {
   });
   console.log(...params);
 }
+export function deepCopy(data) {
+  return JSON.parse(JSON.stringify(data));
+}

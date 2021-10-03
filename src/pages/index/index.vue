@@ -8,27 +8,28 @@
 <script>
 import jsonData from "./刚体转动惯量的测量.json";
 
-
-
 // TODO UI 限制小数位数
-import { getDefaultUIData } from "./binder";
-import { calculateUIData } from "./binder";
+import { getDefaultUIData ,calculateUIData} from "./binder";
+import {  p} from "./util";
 
 export default {
   data() {
     let experiment = jsonData;
-    // console.log(posToIndex(3, 2, 5));
+    p(experiment)
+    let uiData = getDefaultUIData(experiment)
+    p(uiData)
+    p(experiment)
 
     return {
       title: "Hello World",
-      items: getDefaultUIData(experiment),
+      items: uiData,
       experiment: experiment
     };
   },
   onLoad() {},
   methods: {
     calculate() {
-      calculateUIData(this.experiment)
+      calculateUIData(this.experiment);
     }
   }
 };

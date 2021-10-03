@@ -1,6 +1,6 @@
 // TODO UI 限制小数位数
 import { execute } from "./executor";
-import { p } from "./util";
+import { p, deepCopy } from "./util";
 function isTextBox(type) {
   return type == "input-textbox" || type == "output-textbox";
 }
@@ -21,22 +21,25 @@ function getDictNameVariable(variables) {
 }
 
 export function getDefaultUIData(experiment) {
+  // todo 深拷贝 experiment
+  // experiment = deepCopy(experiment);
+
   const dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
 
-  let uiItems = experiment["ui"];
+  for (let i = 0; i < experiment["ui"].length; i++) {
+    experiment["ui"][i]["id"] = i;
+  }
 
-  for (let i = 0; i < uiItems.length; i++) {
-    uiItems[i]["id"] = i;
-
-    if (isTextBox(uiItems[i]["type"])) {
-      let name = uiItems[i]["properties"]["variableName"];
-      uiItems[i]["properties"]["value"] = dictNameVariable[name]["source"]["default"];
-    } else if (uiItems[i]["type"] === "table") {
+  for (const c of experiment["ui"]) {
+    if (isTextBox(c["type"])) {
+      let name = c["properties"]["variableName"];
+      c["properties"]["value"] = dictNameVariable[name]["source"]["default"];
+    } else if (c["type"] === "table") {
       let values = [];
-      for (let j = 0; j < uiItems[i]["properties"]["width"] * uiItems[i]["properties"]["height"]; j++) {
+      for (let j = 0; j < c["properties"]["width"] * c["properties"]["height"]; j++) {
         values.push({ id: j, value: "" });
       }
-      for (const bind of uiItems[i]["properties"]["binds"]) {
+      for (const bind of c["properties"]["binds"]) {
         if (bind["type"] == "variable" && dictNameVariable[bind["name"]]["source"]["type"] != "input") {
           continue;
         }
@@ -51,27 +54,27 @@ export function getDefaultUIData(experiment) {
         if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
           let x = bind["start"][0];
           let y = bind["start"][1];
-          values[posToIndex(x, y, uiItems[i]["properties"]["width"])]["value"] = defaultValue;
+          values[posToIndex(x, y, c["properties"]["width"])]["value"] = defaultValue;
         } else if (bind["start"][0] == bind["end"][0]) {
           let x = bind["start"][0];
           for (let j = 0; j < defaultValue.length; j++) {
             let y = bind["start"][1] + j;
-            values[posToIndex(x, y, uiItems[i]["properties"]["width"])]["value"] = defaultValue[j]; // todo convert to string
+            values[posToIndex(x, y, c["properties"]["width"])]["value"] = defaultValue[j]; // todo convert to string
           }
         } else if (bind["start"][1] == bind["end"][1]) {
           let y = bind["start"][1];
           for (let j = 0; j < defaultValue.length; j++) {
             let x = bind["start"][0] + j;
-            values[posToIndex(x, y, uiItems[i]["properties"]["width"])]["value"] = defaultValue[j];
+            values[posToIndex(x, y, c["properties"]["width"])]["value"] = defaultValue[j];
           }
         } else {
           console.error("start end 不合法", bind);
         }
       }
-      uiItems[i]["properties"]["values"] = values;
+      c["properties"]["values"] = values;
     }
   }
-  return uiItems;
+  return experiment["ui"];
 }
 
 export function calculateUIData(experiment) {

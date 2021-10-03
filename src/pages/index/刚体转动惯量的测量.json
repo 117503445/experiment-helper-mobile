@@ -288,7 +288,7 @@
   },
   "ui": [
     {
-      "type": "textbox",
+      "type": "input-textbox",
       "properties": {
         "variableName": "m_0",
         "frontText": "下盘质量𝑚₀=",
@@ -296,7 +296,7 @@
       }
     },
     {
-      "type": "textbox",
+      "type": "input-textbox",
       "properties": {
         "variableName": "m",
         "frontText": "圆环质量𝑚=",
@@ -365,7 +365,7 @@
       }
     },
     {
-      "type": "textbox",
+      "type": "output-textbox",
       "properties": {
         "variableName": "I_0",
         "frontText": "圆盘转动惯量：𝐼₀=",
@@ -373,7 +373,7 @@
       }
     },
     {
-      "type": "textbox",
+      "type": "output-textbox",
       "properties": {
         "variableName": "I_0_ru_100",
         "frontText": "圆盘相对不确定度：Δ𝐼/𝐼₀=",
@@ -381,7 +381,7 @@
       }
     },
     {
-      "type": "textbox",
+      "type": "output-textbox",
       "properties": {
         "variableName": "I_0_u",
         "frontText": "圆盘不确定度：Δ𝐼₀=",
@@ -389,7 +389,7 @@
       }
     },
     {
-      "type": "textbox",
+      "type": "output-textbox",
       "properties": {
         "variableName": "I",
         "frontText": "圆环转动惯量：𝐼=",
@@ -397,7 +397,7 @@
       }
     },
     {
-      "type": "textbox",
+      "type": "output-textbox",
       "properties": {
         "variableName": "I_except",
         "frontText": "圆环理论转动惯量：𝐼_理论=",
@@ -405,7 +405,7 @@
       }
     },
     {
-      "type": "textbox",
+      "type": "output-textbox",
       "properties": {
         "variableName": "I_d",
         "frontText": "圆环转动惯量误差：Δ𝐼=",

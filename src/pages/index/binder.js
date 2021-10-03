@@ -2,7 +2,7 @@
 import { execute } from "./executor";
 import { p } from "./util";
 function isTextBox(type) {
-  return type == "textbox" || type == "input-textbox" || type == "output-textbox";
+  return type == "input-textbox" || type == "output-textbox";
 }
 
 function posToIndex(x, y, width) {
@@ -24,18 +24,6 @@ export function getDefaultUIData(experiment) {
   const dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
 
   let uiItems = experiment["ui"];
-
-  // 判断 textbox 是输入型还是输出型
-  // todo 分离 textbox？
-  for (let uiItem of uiItems) {
-    if (uiItem.type == "textbox") {
-      if (dictNameVariable[uiItem.properties.variableName].source.type == "input") {
-        uiItem.type = "input-textbox";
-      } else {
-        uiItem.type = "output-textbox";
-      }
-    }
-  }
 
   for (let i = 0; i < uiItems.length; i++) {
     uiItems[i]["id"] = i;
@@ -124,10 +112,7 @@ export function calculateUIData(experiment) {
       }
     }
   }
-  console.log("std_input", std_input);
   let result = execute(experiment["logic"], std_input);
-  console.log(result);
-  console.log(JSON.stringify(result));
   for (const c of experiment["ui"]) {
     if (c["type"] == "table") {
       for (const bind of c["properties"]["binds"]) {
@@ -157,7 +142,6 @@ export function calculateUIData(experiment) {
         }
       }
     } else if (c["type"] == "output-textbox") {
-      console.log("c", JSON.stringify(c));
       c["properties"]["value"] = result[c["properties"]["variableName"]];
     }
   }

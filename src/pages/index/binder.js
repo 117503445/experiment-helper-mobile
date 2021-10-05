@@ -20,146 +20,150 @@ function getDictNameVariable(variables) {
   return dictNameVariable;
 }
 
-export function getLabItems(experiment) {
-  experiment = deepCopy(experiment);
+export class Binder {
+  constructor(experiment) {
+    this.experiment = experiment;
+    this.dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
+  }
 
-  const dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
+  getLabItems() {
+    let experiment = deepCopy(this.experiment);
 
-  let labItems = [];
+    const dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
 
-  for (const expItem of experiment["ui"]) {
-    let labItem = { properties: expItem["properties"], type: expItem["type"] }; // 1个 lab-item 组件 对应的数据
+    let labItems = [];
 
-    if (isTextBox(expItem["type"])) {
-      let name = expItem["properties"]["variableName"];
-      labItem["properties"]["value"] = dictNameVariable[name]["source"]["default"];
-    } else if (expItem["type"] === "table") {
-      let values = [];
-      for (let j = 0; j < expItem["properties"]["width"] * expItem["properties"]["height"]; j++) {
-        values.push({ id: j, value: "" });
-      }
-      for (const bind of expItem["properties"]["binds"]) {
-        if (bind["type"] == "variable" && dictNameVariable[bind["name"]]["source"]["type"] != "input") {
-          continue;
+    for (const expItem of experiment["ui"]) {
+      let labItem = { properties: expItem["properties"], type: expItem["type"] }; // 1个 lab-item 组件 对应的数据
+
+      if (isTextBox(expItem["type"])) {
+        let name = expItem["properties"]["variableName"];
+        labItem["properties"]["value"] = dictNameVariable[name]["source"]["default"];
+      } else if (expItem["type"] === "table") {
+        let values = [];
+        for (let j = 0; j < expItem["properties"]["width"] * expItem["properties"]["height"]; j++) {
+          values.push({ id: j, value: "" });
         }
-
-        let defaultValue;
-        if (bind["type"] == "variable") {
-          defaultValue = dictNameVariable[bind["name"]]["source"]["default"];
-        } else if (bind["type"] == "constant") {
-          defaultValue = bind["value"];
-        }
-
-        if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
-          let x = bind["start"][0];
-          let y = bind["start"][1];
-          values[posToIndex(x, y, expItem["properties"]["width"])]["value"] = defaultValue;
-        } else if (bind["start"][0] == bind["end"][0]) {
-          let x = bind["start"][0];
-          for (let j = 0; j < defaultValue.length; j++) {
-            let y = bind["start"][1] + j;
-            values[posToIndex(x, y, expItem["properties"]["width"])]["value"] = defaultValue[j]; // todo convert to string
+        for (const bind of expItem["properties"]["binds"]) {
+          if (bind["type"] == "variable" && dictNameVariable[bind["name"]]["source"]["type"] != "input") {
+            continue;
           }
-        } else if (bind["start"][1] == bind["end"][1]) {
-          let y = bind["start"][1];
-          for (let j = 0; j < defaultValue.length; j++) {
-            let x = bind["start"][0] + j;
-            values[posToIndex(x, y, expItem["properties"]["width"])]["value"] = defaultValue[j];
+
+          let defaultValue;
+          if (bind["type"] == "variable") {
+            defaultValue = dictNameVariable[bind["name"]]["source"]["default"];
+          } else if (bind["type"] == "constant") {
+            defaultValue = bind["value"];
           }
-        } else {
-          console.error("start end 不合法", bind);
+
+          if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
+            let x = bind["start"][0];
+            let y = bind["start"][1];
+            values[posToIndex(x, y, expItem["properties"]["width"])]["value"] = defaultValue;
+          } else if (bind["start"][0] == bind["end"][0]) {
+            let x = bind["start"][0];
+            for (let j = 0; j < defaultValue.length; j++) {
+              let y = bind["start"][1] + j;
+              values[posToIndex(x, y, expItem["properties"]["width"])]["value"] = defaultValue[j]; // todo convert to string
+            }
+          } else if (bind["start"][1] == bind["end"][1]) {
+            let y = bind["start"][1];
+            for (let j = 0; j < defaultValue.length; j++) {
+              let x = bind["start"][0] + j;
+              values[posToIndex(x, y, expItem["properties"]["width"])]["value"] = defaultValue[j];
+            }
+          } else {
+            console.error("start end 不合法", bind);
+          }
+          // delete labItem.properties.binds;
         }
-        // delete labItem.properties.binds;
+        labItem["properties"]["values"] = values;
       }
-      labItem["properties"]["values"] = values;
+
+      labItems.push(labItem);
     }
-
-    labItems.push(labItem);
+    for (let i = 0; i < labItems.length; i++) {
+      labItems[i]["id"] = i;
+    }
+    return labItems;
   }
-  for (let i = 0; i < labItems.length; i++) {
-    labItems[i]["id"] = i;
-  }
-  return labItems;
-}
 
-export function getStdInput(experiment, labItems) {
-  const dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
+  getStdInput(labItems) {
+    let stdInput = {};
 
-  let stdInput = {};
-
-  for (const c of labItems) {
-    p("c", c);
-    if (isTextBox(c["type"])) {
-      stdInput[c["properties"]["variableName"]] = c["properties"]["value"];
-    } else if (c["type"] == "table") {
-      for (const bind of c["properties"]["binds"]) {
-        if (bind["type"] != "variable" || dictNameVariable[bind["name"]]["source"]["type"] != "input") {
-          continue;
-        }
-        let value = [];
-
-        if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
-          let x = bind["start"][0];
-          let y = bind["start"][1];
-          value = c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"];
-        } else if (bind["start"][0] == bind["end"][0]) {
-          let x = bind["start"][0];
-          for (let j = 0; j < bind["end"][1] - bind["start"][1] + 1; j++) {
-            let y = bind["start"][1] + j;
-            value.push(c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"]);
+    for (const c of labItems) {
+      p("c", c);
+      if (isTextBox(c["type"])) {
+        stdInput[c["properties"]["variableName"]] = c["properties"]["value"];
+      } else if (c["type"] == "table") {
+        for (const bind of c["properties"]["binds"]) {
+          if (bind["type"] != "variable" || this.dictNameVariable[bind["name"]]["source"]["type"] != "input") {
+            continue;
           }
-        } else if (bind["start"][1] == bind["end"][1]) {
-          let y = bind["start"][1];
-          for (let j = 0; j < bind["end"][0] - bind["start"][0] + 1; j++) {
-            let x = bind["start"][0] + j;
-            value.push(c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"]);
+          let value = [];
+
+          if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
+            let x = bind["start"][0];
+            let y = bind["start"][1];
+            value = c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"];
+          } else if (bind["start"][0] == bind["end"][0]) {
+            let x = bind["start"][0];
+            for (let j = 0; j < bind["end"][1] - bind["start"][1] + 1; j++) {
+              let y = bind["start"][1] + j;
+              value.push(c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"]);
+            }
+          } else if (bind["start"][1] == bind["end"][1]) {
+            let y = bind["start"][1];
+            for (let j = 0; j < bind["end"][0] - bind["start"][0] + 1; j++) {
+              let x = bind["start"][0] + j;
+              value.push(c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"]);
+            }
+          } else {
+            console.error("start end 不合法", bind);
           }
-        } else {
-          console.error("start end 不合法", bind);
+          stdInput[bind["name"]] = value;
         }
-        stdInput[bind["name"]] = value;
       }
     }
+    p("std_input", stdInput);
+    return stdInput;
   }
-  p("std_input", stdInput);
-  return stdInput;
-}
 
-export function calculateLabItems(experiment, stdInput, labItems) {
-  experiment = deepCopy(experiment);
-  const dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
+  calculateLabItems(stdInput, labItems) {
+    let experiment = deepCopy(this.experiment);
 
-  let result = execute(experiment["logic"], stdInput);
-  for (const c of labItems) {
-    if (c["type"] == "table") {
-      for (const bind of c["properties"]["binds"]) {
-        if (bind["type"] != "variable" || dictNameVariable[bind["name"]]["source"]["type"] == "input") {
-          continue;
-        }
-        let value = result[bind["name"]];
-        if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
-          let x = bind["start"][0];
-          let y = bind["start"][1];
-          c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"] = value;
-        } else if (bind["start"][0] == bind["end"][0]) {
-          let x = bind["start"][0];
-          for (let j = 0; j < bind["end"][1] - bind["start"][1] + 1; j++) {
-            let y = bind["start"][1] + j;
-            c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"] = value[j];
+    let result = execute(experiment["logic"], stdInput);
+    for (const c of labItems) {
+      if (c["type"] == "table") {
+        for (const bind of c["properties"]["binds"]) {
+          if (bind["type"] != "variable" || this.dictNameVariable[bind["name"]]["source"]["type"] == "input") {
+            continue;
           }
-        } else if (bind["start"][1] == bind["end"][1]) {
-          let y = bind["start"][1];
-          for (let j = 0; j < bind["end"][0] - bind["start"][0] + 1; j++) {
-            let x = bind["start"][0] + j;
+          let value = result[bind["name"]];
+          if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
+            let x = bind["start"][0];
+            let y = bind["start"][1];
+            c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"] = value;
+          } else if (bind["start"][0] == bind["end"][0]) {
+            let x = bind["start"][0];
+            for (let j = 0; j < bind["end"][1] - bind["start"][1] + 1; j++) {
+              let y = bind["start"][1] + j;
+              c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"] = value[j];
+            }
+          } else if (bind["start"][1] == bind["end"][1]) {
+            let y = bind["start"][1];
+            for (let j = 0; j < bind["end"][0] - bind["start"][0] + 1; j++) {
+              let x = bind["start"][0] + j;
 
-            c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"] = value[j];
+              c["properties"]["values"][posToIndex(x, y, c["properties"]["width"])]["value"] = value[j];
+            }
+          } else {
+            console.error("start end 不合法", bind);
           }
-        } else {
-          console.error("start end 不合法", bind);
         }
+      } else if (c["type"] == "output-textbox") {
+        c["properties"]["value"] = result[c["properties"]["variableName"]];
       }
-    } else if (c["type"] == "output-textbox") {
-      c["properties"]["value"] = result[c["properties"]["variableName"]];
     }
   }
 }

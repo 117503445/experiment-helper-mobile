@@ -9,18 +9,21 @@
 import jsonData from "./刚体转动惯量的测量.json";
 
 // TODO UI 限制小数位数
-import { getLabItems, calculateLabItems, getStdInput } from "./binder";
+import { Binder } from "./binder";
 import { p } from "./util";
 
 export default {
   data() {
     let experiment = jsonData;
-    let uiData = getLabItems(experiment);
+
+    let binder = new Binder(experiment);
+    let uiData = binder.getLabItems();
     // p(uiData)
     return {
       title: "Hello World",
       items: uiData,
-      experiment: experiment
+      experiment: experiment,
+      binder: binder
     };
   },
   onLoad() {},
@@ -28,7 +31,7 @@ export default {
     calculate() {
       p("uiData", this.items);
       p("experiment", this.experiment);
-      calculateLabItems(this.experiment, getStdInput(this.experiment, this.items), this.items);
+      this.binder.calculateLabItems(this.binder.getStdInput(this.items), this.items);
     }
   }
 };

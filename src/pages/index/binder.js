@@ -21,25 +21,24 @@ function getDictNameVariable(variables) {
 }
 
 export function getDefaultUIData(experiment) {
-  // todo 深拷贝 experiment
-  // experiment = deepCopy(experiment);
+  experiment = deepCopy(experiment);
 
   const dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
 
-  for (let i = 0; i < experiment["ui"].length; i++) {
-    experiment["ui"][i]["id"] = i;
-  }
+  let labItems = [];
 
-  for (const c of experiment["ui"]) {
-    if (isTextBox(c["type"])) {
-      let name = c["properties"]["variableName"];
-      c["properties"]["value"] = dictNameVariable[name]["source"]["default"];
-    } else if (c["type"] === "table") {
+  for (const expItem of experiment["ui"]) {
+    let labItem = { properties: expItem["properties"], type: expItem["type"] }; // 1个 lab-item 组件 对应的数据
+
+    if (isTextBox(expItem["type"])) {
+      let name = expItem["properties"]["variableName"];
+      labItem["properties"]["value"] = dictNameVariable[name]["source"]["default"];
+    } else if (expItem["type"] === "table") {
       let values = [];
-      for (let j = 0; j < c["properties"]["width"] * c["properties"]["height"]; j++) {
+      for (let j = 0; j < expItem["properties"]["width"] * expItem["properties"]["height"]; j++) {
         values.push({ id: j, value: "" });
       }
-      for (const bind of c["properties"]["binds"]) {
+      for (const bind of expItem["properties"]["binds"]) {
         if (bind["type"] == "variable" && dictNameVariable[bind["name"]]["source"]["type"] != "input") {
           continue;
         }
@@ -54,35 +53,44 @@ export function getDefaultUIData(experiment) {
         if (bind["start"][0] == bind["end"][0] && bind["start"][1] == bind["end"][1]) {
           let x = bind["start"][0];
           let y = bind["start"][1];
-          values[posToIndex(x, y, c["properties"]["width"])]["value"] = defaultValue;
+          values[posToIndex(x, y, expItem["properties"]["width"])]["value"] = defaultValue;
         } else if (bind["start"][0] == bind["end"][0]) {
           let x = bind["start"][0];
           for (let j = 0; j < defaultValue.length; j++) {
             let y = bind["start"][1] + j;
-            values[posToIndex(x, y, c["properties"]["width"])]["value"] = defaultValue[j]; // todo convert to string
+            values[posToIndex(x, y, expItem["properties"]["width"])]["value"] = defaultValue[j]; // todo convert to string
           }
         } else if (bind["start"][1] == bind["end"][1]) {
           let y = bind["start"][1];
           for (let j = 0; j < defaultValue.length; j++) {
             let x = bind["start"][0] + j;
-            values[posToIndex(x, y, c["properties"]["width"])]["value"] = defaultValue[j];
+            values[posToIndex(x, y, expItem["properties"]["width"])]["value"] = defaultValue[j];
           }
         } else {
           console.error("start end 不合法", bind);
         }
+        // delete labItem.properties.binds;
       }
-      c["properties"]["values"] = values;
+      labItem["properties"]["values"] = values;
     }
+
+    labItems.push(labItem);
   }
-  return experiment["ui"];
+  for (let i = 0; i < labItems.length; i++) {
+    labItems[i]["id"] = i;
+  }
+  return labItems;
 }
 
-export function calculateUIData(experiment) {
+export function calculateUIData(experiment, labItems) {
+  experiment = deepCopy(experiment);
+
   let std_input = {};
 
   const dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
 
-  for (const c of experiment["ui"]) {
+  for (const c of labItems) {
+    p("c", c);
     if (isTextBox(c["type"])) {
       std_input[c["properties"]["variableName"]] = c["properties"]["value"];
     } else if (c["type"] == "table") {
@@ -115,8 +123,9 @@ export function calculateUIData(experiment) {
       }
     }
   }
+  p("std_input", std_input);
   let result = execute(experiment["logic"], std_input);
-  for (const c of experiment["ui"]) {
+  for (const c of labItems) {
     if (c["type"] == "table") {
       for (const bind of c["properties"]["binds"]) {
         if (bind["type"] != "variable" || dictNameVariable[bind["name"]]["source"]["type"] == "input") {

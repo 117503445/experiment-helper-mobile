@@ -9,17 +9,14 @@
 import jsonData from "./刚体转动惯量的测量.json";
 
 // TODO UI 限制小数位数
-import { getDefaultUIData ,calculateUIData} from "./binder";
-import {  p} from "./util";
+import { getDefaultUIData, calculateUIData } from "./binder";
+import { p } from "./util";
 
 export default {
   data() {
     let experiment = jsonData;
-    p(experiment)
-    let uiData = getDefaultUIData(experiment)
-    p(uiData)
-    p(experiment)
-
+    let uiData = getDefaultUIData(experiment);
+    // p(uiData)
     return {
       title: "Hello World",
       items: uiData,
@@ -29,7 +26,9 @@ export default {
   onLoad() {},
   methods: {
     calculate() {
-      calculateUIData(this.experiment);
+      p("uiData", this.items);
+      p("experiment", this.experiment);
+      calculateUIData(this.experiment,this.items);
     }
   }
 };

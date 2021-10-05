@@ -20,7 +20,7 @@ function getDictNameVariable(variables) {
   return dictNameVariable;
 }
 
-export function getDefaultUIData(experiment) {
+export function getLabItems(experiment) {
   experiment = deepCopy(experiment);
 
   const dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
@@ -82,17 +82,15 @@ export function getDefaultUIData(experiment) {
   return labItems;
 }
 
-export function calculateUIData(experiment, labItems) {
-  experiment = deepCopy(experiment);
-
-  let std_input = {};
-
+export function getStdInput(experiment, labItems) {
   const dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
+
+  let stdInput = {};
 
   for (const c of labItems) {
     p("c", c);
     if (isTextBox(c["type"])) {
-      std_input[c["properties"]["variableName"]] = c["properties"]["value"];
+      stdInput[c["properties"]["variableName"]] = c["properties"]["value"];
     } else if (c["type"] == "table") {
       for (const bind of c["properties"]["binds"]) {
         if (bind["type"] != "variable" || dictNameVariable[bind["name"]]["source"]["type"] != "input") {
@@ -119,12 +117,19 @@ export function calculateUIData(experiment, labItems) {
         } else {
           console.error("start end 不合法", bind);
         }
-        std_input[bind["name"]] = value;
+        stdInput[bind["name"]] = value;
       }
     }
   }
-  p("std_input", std_input);
-  let result = execute(experiment["logic"], std_input);
+  p("std_input", stdInput);
+  return stdInput;
+}
+
+export function calculateLabItems(experiment, stdInput, labItems) {
+  experiment = deepCopy(experiment);
+  const dictNameVariable = getDictNameVariable(experiment["logic"]["variables"]);
+
+  let result = execute(experiment["logic"], stdInput);
   for (const c of labItems) {
     if (c["type"] == "table") {
       for (const bind of c["properties"]["binds"]) {

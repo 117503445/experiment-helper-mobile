@@ -89,7 +89,7 @@ export function execute(logic, std_input) {
     }
 
     if (typeof x["value"] != "string") {
-      stdOutput[x["name"]] = math.string(x["value"]);
+      stdOutput[x["name"]] = math.string(math.round(x["value"], 3));
       parser.set(x["name"], math.bignumber(x["value"]));
     } else {
       stdOutput[x["name"]] = x["value"];

@@ -61,6 +61,7 @@
     "@dcloudio/uni-ui": "^1.4.5",
     "@vue/shared": "^3.0.0",
     "core-js": "^3.6.5",
+    "experiment-helper-core": "^1.0.0",
     "flyio": "^0.6.2",
     "mathjs": "^9.5.0",
     "regenerator-runtime": "^0.12.1",

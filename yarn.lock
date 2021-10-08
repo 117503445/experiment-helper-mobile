@@ -4845,6 +4845,13 @@ expect@^25.5.0:
     jest-message-util "^25.5.0"
     jest-regex-util "^25.2.6"
 
+experiment-helper-core@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmmirror.com/experiment-helper-core/download/experiment-helper-core-1.0.0.tgz#bd0d515431df0d947237179605a71e62bbc9b192"
+  integrity sha1-vQ1RVDHfDZRyNxeWBaceYrvJsZI=
+  dependencies:
+    mathjs "^9.5.0"
+
 express@^4.16.3, express@^4.17.1:
   version "4.17.1"
   resolved "https://registry.npm.taobao.org/express/download/express-4.17.1.tgz#4491fc38605cf51f8629d39c2b5d026f98a4c134"

@@ -8,10 +8,12 @@
 <script>
 import { Binder, util, experiments } from "experiment-helper-core";
 
+import js from "./debug.json";
+
 export default {
   data() {
     util.p(experiments);
-    let experiment = experiments.experiments[0];
+    let experiment = js;
 
     let binder = new Binder.Binder(experiment);
     let items = binder.getLabItems();

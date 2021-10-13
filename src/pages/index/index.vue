@@ -1,7 +1,10 @@
 <template>
   <view class="content">
     <lab-item v-for="item in items" :properties="item.properties" :type="item.type" :key="item.id"></lab-item>
-    <button @click="calculate">计算结果</button>
+    <view class="content-button">
+      <button class="btn-reset" @click="reset">一键清空</button>
+      <button class="btn-compute" @click="calculate">计算结果</button>
+    </view>
   </view>
 </template>
 
@@ -10,26 +13,32 @@ import { Binder, util, experiments } from "experiment-helper-core";
 
 export default {
   data() {
-    util.p(experiments);
+    /* util.p(experiments); */
     let experiment = experiments.experiments[0];
 
     let binder = new Binder.Binder(experiment);
     let items = binder.getLabItems();
-    util.p(items);
+    let initItems = binder.getStdInput(items);
+    /* util.p(items); */
     return {
       title: "Hello World",
       items: items,
+      initItems: initItems,
       experiment: experiment,
       binder: binder
     };
   },
-  onLoad() {},
   methods: {
     calculate() {
-      util.p("items", this.items);
-      util.p("experiment", this.experiment);
+      /* util.p("items", this.items);
+      util.p("experiment", this.experiment); */
       let stdInput = this.binder.getStdInput(this.items);
+      console.log(stdInput);
       this.binder.calculateLabItems(stdInput, this.items);
+    },
+    reset() {
+      console.log(this.initItems);
+      this.binder.calculateLabItems(this.initItems, this.items);
     }
   }
 };
@@ -39,10 +48,22 @@ export default {
 .content {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  /*  align-items: center; */
 }
-
+.content-button {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.content-button .btn-reset {
+  color: #ffffff;
+  background: orange;
+}
+.content-button .btn-compute {
+  color: #ffffff;
+  background: rgb(142, 201, 55);
+}
 .text-area {
   display: flex;
   justify-content: center;

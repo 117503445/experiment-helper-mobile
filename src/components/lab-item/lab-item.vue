@@ -7,14 +7,14 @@
 </template>
 
 <script>
-import labTextboxInput from './lab-textbox-input.vue';
-import labTextboxOutput from './lab-textbox-output.vue';
+import labTextboxInput from "./lab-textbox-input.vue";
+import labTextboxOutput from "./lab-textbox-output.vue";
 import LabTable from "./lab-table.vue";
 export default {
-  components: { LabTable, labTextboxInput ,labTextboxOutput},
+  components: { LabTable, labTextboxInput, labTextboxOutput },
   name: "lab-item",
   props: ["properties", "type"],
-  methods: {},
+  methods: {}
 };
 </script>
 

@@ -3,13 +3,14 @@
 
   <view class="lab-table-container">
     <scroll-view scroll-x="true">
+      <!-- style-width may be error -->
       <uni-grid style="width: 600px" :column="properties.width" :square="false">
         <uni-grid-item
           v-for="item in properties.values"
-          style="min-height: 20px; height: 20px; text-align: center"
+          style="min-height: 30px; height: 30px; text-align: center"
           :key="item.id"
         >
-          <input type="text" v-model="item.value" />
+          <input type="text" v-model="item.value" style="height: 100%; line-height: 10px" />
         </uni-grid-item>
       </uni-grid>
       <!-- 撑开scroll -->
@@ -31,9 +32,6 @@ export default {
 </script>
 
 <style scoped>
-input {
-  display: inline-block;
-}
 .scroll-box {
   height: 10px;
 }

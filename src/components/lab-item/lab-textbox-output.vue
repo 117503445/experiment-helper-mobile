@@ -1,5 +1,5 @@
 <template name="lab-textbox-output">
-  <view class="uni-flex uni-row">
+  <view class="uni-flex uni-row lab-text-output">
     <text class="flex-item">{{ properties.frontText }}</text>
     <text class="flex-item output">{{ properties.value }}</text>
     <text class="flex-item">{{ properties.backText }}</text>
@@ -15,7 +15,7 @@ export default {
 </script>
 
 <style>
-.uni-flex {
+.lab-text-output {
   margin: 3px 0px 3px 10px;
 }
 .output {

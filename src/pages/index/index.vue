@@ -20,7 +20,6 @@ export default {
 
     let binder = new Binder.Binder(experiment);
     let items = binder.getLabItems(true);
-    let initItems = binder.getStdInput(items);
     /* util.p(items); */
     return {
       title: "Hello World",
@@ -33,9 +32,9 @@ export default {
     calculate() {
       /* util.p("items", this.items);
       util.p("experiment", this.experiment); */
-      let stdInput = this.binder.getStdInput(this.items);
-      console.log(stdInput);
-      this.binder.calculateLabItems(stdInput, this.items);
+      // let stdInput = this.binder.getStdInput(this.items);
+      // console.log(stdInput);
+      this.binder.calculateLabItems(this.items);
     },
     reset() {
       this.items = this.binder.getLabItems(false);

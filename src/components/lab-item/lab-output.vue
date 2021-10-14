@@ -1,4 +1,4 @@
-<template name="lab-textbox-output">
+<template name="lab-output">
   <view class="uni-flex uni-row">
     <text class="flex-item">{{ properties.frontText }}</text>
     <text class="flex-item output">{{ properties.value }}</text>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: "lab-textbox-output",
+  name: "lab-output",
   props: ["properties"],
   methods: {}
 };

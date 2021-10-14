@@ -4845,10 +4845,10 @@ expect@^25.5.0:
     jest-message-util "^25.5.0"
     jest-regex-util "^25.2.6"
 
-experiment-helper-core@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.npmmirror.com/experiment-helper-core/download/experiment-helper-core-1.0.2.tgz#2556f9d170daec8662514e7328dddc15a6072784"
-  integrity sha1-JVb50XDa7IZiUU5zKN3cFaYHJ4Q=
+experiment-helper-core@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmmirror.com/experiment-helper-core/download/experiment-helper-core-1.2.0.tgz#c5fcef054de34fb521e851833e6cb3f0f973ef8c"
+  integrity sha1-xfzvBU3jT7Uh6FGDPmyz8Plz74w=
   dependencies:
     mathjs "^9.5.0"
 

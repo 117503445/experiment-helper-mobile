@@ -1,5 +1,5 @@
-<template name="lab-textbox-input">
-  <view class="uni-flex uni-row lab-text-input">
+<template name="lab-input">
+  <view class="uni-flex uni-row lab-input">
     <text class="flex-item">{{ properties.frontText }}</text>
     <input class="input-compute" type="text" v-model="properties.value" />
     <text class="flex-item">{{ properties.backText }}</text>
@@ -8,14 +8,14 @@
 
 <script>
 export default {
-  name: "lab-textbox-input",
+  name: "lab-input",
   props: ["properties"],
   methods: {}
 };
 </script>
 
 <style>
-.lab-text-input {
+.lab-input {
   margin: 3px 0px 3px 10px;
 }
 .input-compute {

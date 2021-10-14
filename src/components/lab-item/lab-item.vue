@@ -1,20 +1,21 @@
 <template name="lab-item">
   <view>
-    <lab-textbox-input v-if="type === 'input-textbox'" :properties="properties" />
-    <lab-textbox-output v-if="type === 'output-textbox'" :properties="properties" />
+    <lab-input v-if="type === 'input'" :properties="properties" />
+    <lab-output v-if="type === 'output'" :properties="properties" />
     <lab-table v-if="type === 'table'" :properties="properties" />
+    <lab-textbox v-if="type === 'textbox'" :properties="properties" />
   </view>
 </template>
 
 <script>
-import labTextboxInput from "./lab-textbox-input.vue";
-import labTextboxOutput from "./lab-textbox-output.vue";
+import LabInput from "./lab-input.vue";
+import LabOutput from "./lab-output.vue";
 import LabTable from "./lab-table.vue";
+import LabTextbox from "./lab-textbox.vue";
 export default {
-  components: { LabTable, labTextboxInput, labTextboxOutput },
+  components: { LabTable, LabInput, LabOutput, LabTextbox },
   name: "lab-item",
   props: ["properties", "type"],
   methods: {}
 };
 </script>
-

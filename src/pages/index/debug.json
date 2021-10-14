@@ -1,239 +1,221 @@
 {
   "meta": {
-    "name": "音叉振动频率的测量",
+    "name": "霍尔效应实验",
     "author": "117503445",
-    "contributors": [],
-    "version": "0.0.1"
+    "contributors": ["尘与风"],
+    "version": "0.0.1",
+    "LastEditTime": "2021-10-14 11:03"
   },
   "logic": {
     "functions": {},
     "variables": [
       {
-        "name": "𝝆",
-        "comment": "弦线密度",
+        "name": "K_H_1",
+        "comment": "灵敏度1",
         "source": {
           "type": "input",
-          "default": 0.00356
+          "default": 38.65
         }
       },
       {
-        "name": "g",
-        "comment": " 重力加速度",
+        "name": "U_1_1",
+        "comment": "正霍尔电压",
         "source": {
           "type": "input",
-          "default": 9.8
+          "default": [8.248, 20.104, 32.113, 44.061, 55.915, 67.823, 79.592, 91.285, 103.702]
         }
       },
       {
-        "name": "f_0",
-        "comment": "音叉频率标准值",
+        "name": "U_2_1",
+        "comment": "负霍尔电压",
         "source": {
           "type": "input",
-          "default": 100
+          "default": [8.563, 20.596, 32.396, 44.496, 56.323, 67.91, 80.135, 91.723, 104.31]
         }
       },
       {
-        "name": "m",
-        "comment": "砝码质量",
+        "name": "U_H_1",
+        "comment": "霍尔电压",
+        "source": {
+          "type": "mathjs",
+          "expression": "0.5 * (U_1_1 + abs(U_2_1))"
+        }
+      },
+      {
+        "name": "B_1",
+        "comment": "磁感应强度",
+        "source": {
+          "type": "mathjs",
+          "expression": "U_1_1 / (K_H_1 * 10)"
+        }
+      },
+      {
+        "name": "K_H_2",
+        "comment": "灵敏度2",
         "source": {
           "type": "input",
-          "default": [25, 50, 100, 125, 175]
+          "default": 38.65
         }
       },
       {
-        "name": "n",
-        "comment": "波腹数",
+        "name": "I",
+        "comment": "表二 工作电流",
         "source": {
           "type": "input",
-          "default": [6, 5, 4, 3, 2]
+          "default": [2, 3, 4, 5, 6, 7, 8, 9, 10]
         }
       },
       {
-        "name": "L",
-        "comment": "弦线长",
+        "name": "U_1_2",
+        "comment": "正霍尔电压",
         "source": {
           "type": "input",
-          "default": [76.9, 88, 102.6, 84.5, 67.4]
+          "default": [9.021, 13.538, 17.782, 22.165, 26.581, 30.972, 35.213, 39.496, 44.704]
         }
       },
       {
-        "name": "sqrt_m",
-        "comment": "砝码质量的开方",
+        "name": "U_2_2",
+        "comment": "负霍尔电压",
         "source": {
-          "type": "mathjs",
-          "expression": "sqrt(m)"
+          "type": "input",
+          "default": [8.875, 13.354, 17.65, 22.212, 26.73, 31.01, 35.461, 39.915, 44.283]
         }
       },
       {
-        "name": "λ",
-        "comment": "波长",
+        "name": "U_H_2",
+        "comment": "霍尔电压",
         "source": {
           "type": "mathjs",
-          "expression": "L./n*2"
+          "expression": "0.5 * (U_1_2 + abs(U_2_2))"
         }
       },
       {
-        "name": "f",
-        "comment": "频率",
+        "name": "B_2",
+        "comment": "磁感应强度",
         "source": {
           "type": "mathjs",
-          "expression": "10./λ.*sqrt(m.*g./𝝆)"
-        }
-      },
-      {
-        "name": "v",
-        "comment": "波速",
-        "source": {
-          "type": "mathjs",
-          "expression": "λ.*f/100"
-        }
-      },
-      {
-        "name": "f_a",
-        "comment": "平均频率",
-        "source": {
-          "type": "mathjs",
-          "expression": "mean(f)"
-        }
-      },
-      {
-        "name": "Δf",
-        "comment": "频率误差",
-        "source": {
-          "type": "mathjs",
-          "expression": "abs(f_a-f_0)"
-        }
-      },
-      {
-        "name": "f_result",
-        "comment": "频率实验结果",
-        "source": {
-          "type": "mathjs",
-          "expression": "concat(string(round(f_a,3)),\"±\",string(round(Δf,2)))"
-        }
-      },
-      {
-        "name": "E",
-        "comment": "相对误差",
-        "source": {
-          "type": "mathjs",
-          "expression": "Δf/f_0*100"
+          "expression": "U_1_2 ./ I / (K_H_2)"
         }
       }
     ]
   },
   "ui": [
     {
-      "type": "input-textbox",
+      "type": "input",
       "properties": {
-        "variableName": "𝝆",
-        "frontText": "弦线密度𝝆=",
-        "backText": "𝑔/𝑐𝑚"
+        "variableName": "K_H_1",
+        "frontText": "K_H = ",
+        "backText": "/(A.T)"
       }
     },
     {
-      "type": "input-textbox",
+      "type": "textbox",
       "properties": {
-        "variableName": "g",
-        "frontText": "重力加速度g=",
-        "backText": "𝑚/𝑠²"
-      }
-    },
-    {
-      "type": "input-textbox",
-      "properties": {
-        "variableName": "f_0",
-        "frontText": "音叉频率标准值𝑓₀=",
-        "backText": "𝐻𝑧"
+        "text": "工作电流 I = 10 mA"
       }
     },
     {
       "type": "table",
       "properties": {
-        "width": 7,
-        "height": 6,
+        "width": 10,
+        "height": 5,
         "binds": [
           {
             "type": "constant",
-            "value": ["砝码质量𝑚/𝑔", "波腹数", "弦线长L/𝑐𝑚", "√𝑚", "波长", "波速", "频率"],
+            "value": ["0.20", "0.30", "0.40", "0.50", "0.60", "0.70", "0.80", "0.90", "1.00"],
+            "start": [1, 2],
+            "end": [1, 10]
+          },
+          {
+            "type": "constant",
+            "value": ["励磁电流 I_m/A", "(+B,+I)U_1/mV", "(+B,-I)U_2/mV", "U_H/mV", "B/T"],
             "start": [1, 1],
-            "end": [1, 7]
+            "end": [5, 1]
           },
           {
             "type": "variable",
-            "name": "m",
-            "start": [2, 1],
-            "end": [6, 1]
-          },
-          {
-            "type": "variable",
-            "name": "n",
+            "name": "U_1_1",
             "start": [2, 2],
-            "end": [6, 2]
+            "end": [2, 10]
           },
           {
             "type": "variable",
-            "name": "L",
-            "start": [2, 3],
-            "end": [6, 3]
+            "name": "U_2_1",
+            "start": [3, 2],
+            "end": [3, 10]
           },
           {
             "type": "variable",
-            "name": "sqrt_m",
-            "start": [2, 4],
-            "end": [6, 4]
+            "name": "U_H_1",
+            "start": [4, 2],
+            "end": [4, 10]
           },
           {
             "type": "variable",
-            "name": "λ",
-            "start": [2, 5],
-            "end": [6, 5]
-          },
-          {
-            "type": "variable",
-            "name": "v",
-            "start": [2, 6],
-            "end": [6, 6]
-          },
-          {
-            "type": "variable",
-            "name": "f",
-            "start": [2, 7],
-            "end": [6, 7]
+            "name": "B_1",
+            "start": [5, 2],
+            "end": [5, 10]
           }
         ]
       }
     },
     {
-      "type": "output-textbox",
+      "type": "input",
       "properties": {
-        "variableName": "f_a",
-        "frontText": "平均频率: 𝑓_average=",
-        "backText": " 𝐻𝑧"
+        "variableName": "K_H_2",
+        "frontText": "K_H = ",
+        "backText": "/(A.T)"
       }
     },
     {
-      "type": "output-textbox",
+      "type": "textbox",
       "properties": {
-        "variableName": "Δf",
-        "frontText": "频率误差: Δ𝑓=",
-        "backText": " 𝐻𝑧"
+        "text": "励磁电流 I_m = 500 mA"
       }
     },
     {
-      "type": "output-textbox",
+      "type": "table",
       "properties": {
-        "variableName": "f_result",
-        "frontText": "实验结果: 𝑓=",
-        "backText": " 𝐻𝑧"
-      }
-    },
-    {
-      "type": "output-textbox",
-      "properties": {
-        "variableName": "E",
-        "frontText": "相对误差: 𝐸=Δ𝑓/𝑓₀=",
-        "backText": " 𝐻𝑧"
+        "width": 10,
+        "height": 5,
+        "binds": [
+          {
+            "type": "constant",
+            "value": ["0.20", "0.30", "0.40", "0.50", "0.60", "0.70", "0.80", "0.90", "1.00"],
+            "start": [1, 2],
+            "end": [1, 10]
+          },
+          {
+            "type": "constant",
+            "value": ["励磁电流 I_m/A", "(+B,+I)U_1/mV", "(+B,-I)U_2/mV", "U_H/mV", "B/T"],
+            "start": [1, 1],
+            "end": [5, 1]
+          },
+          {
+            "type": "variable",
+            "name": "U_1_2",
+            "start": [2, 2],
+            "end": [2, 10]
+          },
+          {
+            "type": "variable",
+            "name": "U_2_2",
+            "start": [3, 2],
+            "end": [3, 10]
+          },
+          {
+            "type": "variable",
+            "name": "U_H_2",
+            "start": [4, 2],
+            "end": [4, 10]
+          },
+          {
+            "type": "variable",
+            "name": "B_2",
+            "start": [5, 2],
+            "end": [5, 10]
+          }
+        ]
       }
     }
   ]

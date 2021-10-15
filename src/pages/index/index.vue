@@ -15,12 +15,11 @@ import js from "./debug.json";
 
 export default {
   data() {
-    util.p(experiments);
+    // util.p(experiments);
     let experiment = js;
 
     let binder = new Binder.Binder(experiment);
     let items = binder.getLabItems(true);
-    /* util.p(items); */
     return {
       title: "Hello World",
       items: items,
@@ -30,11 +29,9 @@ export default {
   },
   methods: {
     calculate() {
-      /* util.p("items", this.items);
-      util.p("experiment", this.experiment); */
-      // let stdInput = this.binder.getStdInput(this.items);
-      // console.log(stdInput);
+      // util.p(this.binder.getStdInput(this.items));
       this.binder.calculateLabItems(this.items);
+      util.p(this.items);
     },
     reset() {
       this.items = this.binder.getLabItems(false);

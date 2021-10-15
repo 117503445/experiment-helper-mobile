@@ -1,160 +1,234 @@
 {
   "meta": {
-    "name": "霍尔效应实验",
+    "name": "单线扭摆实验",
     "author": "117503445",
-    "contributors": ["尘与风"],
+    "contributors": [],
     "version": "0.0.1",
-    "LastEditTime": "2021-10-14 11:03"
+    "LastEditTime": "2021-10-15 12:48"
   },
   "logic": {
     "functions": {},
     "variables": [
       {
-        "name": "K_H_1",
-        "comment": "灵敏度1",
+        "name": "l",
+        "comment": "长度",
         "source": {
           "type": "input",
-          "default": 38.65
+          "default": 538.5
         }
       },
       {
-        "name": "U_1_1",
-        "comment": "正霍尔电压",
+        "name": "m",
+        "comment": "圆环质量",
         "source": {
           "type": "input",
-          "default": [8.248, 20.104, 32.113, 44.061, 55.915, 67.823, 79.592, 91.285, 103.702]
+          "default": 485
         }
       },
       {
-        "name": "U_2_1",
-        "comment": "负霍尔电压",
+        "name": "R_1",
+        "comment": "圆环内半径",
         "source": {
           "type": "input",
-          "default": [8.563, 20.596, 32.396, 44.496, 56.323, 67.91, 80.135, 91.723, 104.31]
+          "default": 50.1
         }
       },
       {
-        "name": "U_H_1",
-        "comment": "霍尔电压",
+        "name": "R_2",
+        "comment": "圆环外半径",
+        "source": {
+          "type": "input",
+          "default": 60.05
+        }
+      },
+      {
+        "name": "T_0",
+        "comment": "摆盘时间",
+        "source": {
+          "type": "input",
+          "default": [47.56, 47.87, 47.59, 47.81, 47.72]
+        }
+      },
+      {
+        "name": "T_0_a",
+        "comment": "摆盘时间平均值",
+        "source": {
+          "type": "mathjs-suffix"
+        }
+      },
+      {
+        "name": "T_0_t",
+        "comment": "摆盘周期",
         "source": {
           "type": "mathjs",
-          "expression": "0.5 * (U_1_1 + abs(U_2_1))"
+          "expression": "T_0_a / 20"
         }
       },
       {
-        "name": "B_1",
-        "comment": "磁感应强度",
+        "name": "T",
+        "comment": "摆盘圆环时间",
+        "source": {
+          "type": "input",
+          "default": [78.35, 78.41, 78.5, 78.38, 78.63]
+        }
+      },
+      {
+        "name": "T_a",
+        "comment": "摆盘圆环时间平均值",
+        "source": {
+          "type": "mathjs-suffix"
+        }
+      },
+      {
+        "name": "T_t",
+        "comment": "摆盘圆环周期",
         "source": {
           "type": "mathjs",
-          "expression": "U_1_1 / (K_H_1 * 10)"
+          "expression": "T_a / 20"
         }
       },
       {
-        "name": "K_H_2",
-        "comment": "灵敏度2",
+        "name": "l_heng",
+        "comment": "横向长度",
         "source": {
           "type": "input",
-          "default": 38.65
+          "default": [0.792, 0.803, 0.802]
         }
       },
       {
-        "name": "I",
-        "comment": "表二 工作电流",
+        "name": "l_heng_a",
+        "comment": "横向长度平均值",
+        "source": {
+          "type": "mathjs-suffix"
+        }
+      },
+      {
+        "name": "l_zong",
+        "comment": "纵向长度",
         "source": {
           "type": "input",
-          "default": [2, 3, 4, 5, 6, 7, 8, 9, 10]
+          "default": [0.811, 0.793, 0.791]
         }
       },
       {
-        "name": "U_1_2",
-        "comment": "正霍尔电压",
+        "name": "l_zong_a",
+        "comment": "纵向长度平均值",
         "source": {
-          "type": "input",
-          "default": [9.021, 13.538, 17.782, 22.165, 26.581, 30.972, 35.213, 39.496, 44.704]
+          "type": "mathjs-suffix"
         }
       },
       {
-        "name": "U_2_2",
-        "comment": "负霍尔电压",
-        "source": {
-          "type": "input",
-          "default": [8.875, 13.354, 17.65, 22.212, 26.73, 31.01, 35.461, 39.915, 44.283]
-        }
-      },
-      {
-        "name": "U_H_2",
-        "comment": "霍尔电压",
+        "name": "d",
+        "comment": "直径",
         "source": {
           "type": "mathjs",
-          "expression": "0.5 * (U_1_2 + abs(U_2_2))"
+          "expression": "(l_heng_a+l_zong_a)/2"
         }
       },
       {
-        "name": "B_2",
-        "comment": "磁感应强度",
+        "name": "F",
+        "comment": "扭转模量",
         "source": {
           "type": "mathjs",
-          "expression": "U_1_2 ./ I / (K_H_2)"
+          "expression": "pi * d ^ 4 * 7.9 * 10^10 / (32 * l) / 1000000"
+        }
+      },
+      {
+        "name": "J_0",
+        "comment": "圆台转动惯量",
+        "source": {
+          "type": "mathjs",
+          "expression": "F * T_0_t^2 / (4 * pi^2)"
+        }
+      },
+      {
+        "name": "J",
+        "comment": "摆+环转动惯量",
+        "source": {
+          "type": "mathjs",
+          "expression": "F*T_t^2/ (4 * pi^2)"
+        }
+      },
+      {
+        "name": "J_1",
+        "comment": "圆环转动惯量",
+        "source": {
+          "type": "mathjs",
+          "expression": "J-J_0"
+        }
+      },
+      {
+        "name": "J_1_lilun",
+        "comment": "𝐽₁理论值",
+        "source": {
+          "type": "mathjs",
+          "expression": "0.5 * m * (R_1^2 + R_2^2) / 1000000"
+        }
+      },
+      {
+        "name": "E",
+        "comment": "相对误差",
+        "source": {
+          "type": "mathjs",
+          "expression": "abs((J_1_lilun-J_1)/J_1)*100"
         }
       }
     ]
   },
   "ui": [
     {
-      "type": "input",
-      "properties": {
-        "variableName": "K_H_1",
-        "frontText": "K_H = ",
-        "backText": "/(A.T)"
-      }
-    },
-    {
-      "type": "textbox",
-      "properties": {
-        "text": "工作电流 I = 10 mA"
-      }
-    },
-    {
       "type": "table",
       "properties": {
-        "width": 10,
-        "height": 5,
+        "width": 8,
+        "height": 3,
         "binds": [
           {
             "type": "constant",
-            "value": ["0.20", "0.30", "0.40", "0.50", "0.60", "0.70", "0.80", "0.90", "1.00"],
+            "value": ["①", "②", "③", "④", "⑤", "平均值", "单次周期"],
             "start": [1, 2],
-            "end": [1, 10]
+            "end": [1, 8]
           },
           {
             "type": "constant",
-            "value": ["励磁电流 I_m/A", "(+B,+I)U_1/mV", "(+B,-I)U_2/mV", "U_H/mV", "B/T"],
+            "value": ["振动时间(20次)", "摆盘𝑇₀", "摆盘+圆环𝑇"],
             "start": [1, 1],
-            "end": [5, 1]
+            "end": [3, 1]
           },
           {
             "type": "variable",
-            "name": "U_1_1",
+            "name": "T_0",
             "start": [2, 2],
-            "end": [2, 10]
+            "end": [2, 6]
           },
           {
             "type": "variable",
-            "name": "U_2_1",
+            "name": "T_0_a",
+            "start": [2, 7],
+            "end": [2, 7]
+          },
+          {
+            "type": "variable",
+            "name": "T_0_t",
+            "start": [2, 8],
+            "end": [2, 8]
+          },
+          {
+            "type": "variable",
+            "name": "T",
             "start": [3, 2],
-            "end": [3, 10]
+            "end": [3, 6]
           },
           {
             "type": "variable",
-            "name": "U_H_1",
-            "start": [4, 2],
-            "end": [4, 10]
+            "name": "T_a",
+            "start": [3, 7],
+            "end": [3, 7]
           },
           {
             "type": "variable",
-            "name": "B_1",
-            "start": [5, 2],
-            "end": [5, 10]
+            "name": "T_t",
+            "start": [3, 8],
+            "end": [3, 8]
           }
         ]
       }
@@ -162,60 +236,134 @@
     {
       "type": "input",
       "properties": {
-        "variableName": "K_H_2",
-        "frontText": "K_H = ",
-        "backText": "/(A.T)"
+        "variableName": "l",
+        "frontText": "长度：𝑙=",
+        "backText": " 𝑚𝑚"
       }
     },
     {
-      "type": "textbox",
+      "type": "input",
       "properties": {
-        "text": "励磁电流 I_m = 500 mA"
+        "variableName": "m",
+        "frontText": "圆环质量:𝑚=",
+        "backText": "𝑔"
       }
     },
     {
       "type": "table",
       "properties": {
-        "width": 10,
-        "height": 5,
+        "width": 5,
+        "height": 3,
         "binds": [
           {
             "type": "constant",
-            "value": ["0.20", "0.30", "0.40", "0.50", "0.60", "0.70", "0.80", "0.90", "1.00"],
+            "value": ["上部", "中部", "下部", "平均值"],
             "start": [1, 2],
-            "end": [1, 10]
+            "end": [1, 5]
           },
           {
             "type": "constant",
-            "value": ["励磁电流 I_m/A", "(+B,+I)U_1/mV", "(+B,-I)U_2/mV", "U_H/mV", "B/T"],
-            "start": [1, 1],
-            "end": [5, 1]
+            "value": ["横向", "纵向"],
+            "start": [2, 1],
+            "end": [3, 1]
           },
           {
             "type": "variable",
-            "name": "U_1_2",
+            "name": "l_heng",
             "start": [2, 2],
-            "end": [2, 10]
+            "end": [2, 4]
           },
           {
             "type": "variable",
-            "name": "U_2_2",
+            "name": "l_heng_a",
+            "start": [2, 5],
+            "end": [2, 5]
+          },
+          {
+            "type": "variable",
+            "name": "l_zong",
             "start": [3, 2],
-            "end": [3, 10]
+            "end": [3, 4]
           },
           {
             "type": "variable",
-            "name": "U_H_2",
-            "start": [4, 2],
-            "end": [4, 10]
-          },
-          {
-            "type": "variable",
-            "name": "B_2",
-            "start": [5, 2],
-            "end": [5, 10]
+            "name": "l_zong_a",
+            "start": [3, 5],
+            "end": [3, 5]
           }
         ]
+      }
+    },
+    {
+      "type": "input",
+      "properties": {
+        "variableName": "R_1",
+        "frontText": "𝑅₁=",
+        "backText": " 𝑚𝑚"
+      }
+    },
+    {
+      "type": "input",
+      "properties": {
+        "variableName": "R_2",
+        "frontText": "𝑅₂=",
+        "backText": " 𝑚𝑚"
+      }
+    },
+    {
+      "type": "output",
+      "properties": {
+        "variableName": "d",
+        "frontText": "直径: 𝑑=",
+        "backText": " 𝑚𝑚"
+      }
+    },
+    {
+      "type": "output",
+      "properties": {
+        "variableName": "F",
+        "frontText": "𝐹=",
+        "backText": "×10^-3 kg*m^2"
+      }
+    },
+    {
+      "type": "output",
+      "properties": {
+        "variableName": "J_0",
+        "frontText": "圆台转动惯量: 𝐽₀=",
+        "backText": "×10^-3 kg*m^2"
+      }
+    },
+    {
+      "type": "output",
+      "properties": {
+        "variableName": "J",
+        "frontText": "摆+环转动惯量: 𝐽=",
+        "backText": "×10^-3 kg*m^2"
+      }
+    },
+    {
+      "type": "output",
+      "properties": {
+        "variableName": "J_1",
+        "frontText": "圆环转动惯量: 𝐽₁=",
+        "backText": "×10^-3 kg*m^2"
+      }
+    },
+    {
+      "type": "output",
+      "properties": {
+        "variableName": "J_1_lilun",
+        "frontText": "𝐽₁理论值",
+        "backText": "×10^-3 kg*m^2"
+      }
+    },
+    {
+      "type": "output",
+      "properties": {
+        "variableName": "E",
+        "frontText": "相对误差: 𝐸=",
+        "backText": "%"
       }
     }
   ]

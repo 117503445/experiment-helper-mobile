@@ -29,15 +29,15 @@ export default {
   },
   methods: {
     calculate() {
-      util.p("stdOutput", this.binder.getStdOutput(this.items));
+      /* util.p("stdOutput", this.binder.getStdOutput(this.items)); */
 
       // util.p(this.binder.getStdInput(this.items));
       this.binder.calculateLabItems(this.items);
-      util.p(this.items);
+      /*  util.p(this.items); */
     },
     reset() {
       this.items = this.binder.getLabItems(false);
-      console.log(this.items);
+      /* console.log(this.items); */
     }
   }
 };

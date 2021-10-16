@@ -10,7 +10,6 @@
                 disabled="true"
                 v-if="item.type === 'constant' || item.type === 'output'"
                 v-model="item.value"
-                :value="item.value"
                 :placeholder="item.default"
                 :style="{ width: gridWidth[column.id] }"
               />
@@ -18,7 +17,6 @@
                 type="digit"
                 v-else-if="item.type === 'input'"
                 v-model="item.value"
-                :value="item.value"
                 :placeholder="item.default"
                 :style="{ width: gridWidth[column.id] }"
               />

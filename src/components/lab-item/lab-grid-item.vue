@@ -1,30 +1,28 @@
 <template>
   <view class="lab-grid-container" :style="{ height: gridHeight }">
-    <scroll-view scroll-x="true">
-      <view class="lab-grid">
-        <view v-for="column in showArr" :key="column.id">
-          <view class="column-box" v-for="item in column" :key="item.id">
-            <view>
-              <input
-                type="text"
-                disabled="true"
-                v-if="item.type === 'constant' || item.type === 'output'"
-                v-model="item.value"
-                :placeholder="item.default"
-                :style="{ width: gridWidth[column.id] }"
-              />
-              <input
-                type="digit"
-                v-else-if="item.type === 'input'"
-                v-model="item.value"
-                :placeholder="item.default"
-                :style="{ width: gridWidth[column.id] }"
-              />
-            </view>
-          </view>
+    <!-- <scroll-view scroll-x="true"> -->
+    <view class="lab-grid">
+      <view v-for="column in showArr" :key="column.id">
+        <view class="column-box" v-for="item in column" :key="item.id">
+          <input
+            type="text"
+            disabled="true"
+            v-if="item.type === 'constant' || item.type === 'output'"
+            v-model="item.value"
+            :placeholder="item.default"
+            :style="{ width: gridWidth[column.id] }"
+          />
+          <input
+            type="digit"
+            v-else-if="item.type === 'input' || item.type === 'variable'"
+            v-model="item.value"
+            :placeholder="item.default"
+            :style="{ width: gridWidth[column.id] }"
+          />
         </view>
       </view>
-    </scroll-view>
+    </view>
+    <!-- </scroll-view> -->
   </view>
 </template>
 
@@ -34,12 +32,13 @@ export default {
   data() {
     let width = this.properties.width;
     let height = this.properties.height;
+    console.log(height);
 
     let arr = new Array(height);
     let showArr = new Array(width);
     let count = 0;
 
-    console.log(this.properties.grids);
+    console.log(width);
     /* conten transform into two demension array */
     for (let i = 0; i < height; i++) {
       arr[i] = new Array(width);
@@ -58,13 +57,16 @@ export default {
       }
     }
 
+    /* adjust gridHeight totalWidth */
     let gridWidth = new Array(width);
-    let gridHeight = height * 20 + "px";
+    let gridHeight = height * 32.4 + 30 + "px";
     let totalWidth = 0;
     for (let j = 0; j < width; j++) {
       let maxString = 0;
       for (let i = 0; i < height; i++) {
-        maxString = Math.max(maxString, arr[i][j].value.toString().length);
+        if (arr[i][j].value != undefined) {
+          maxString = Math.max(maxString, arr[i][j].value.toString().length);
+        }
       }
       gridWidth[j] = maxString * 10 + 40 + "px";
       totalWidth += maxString;
@@ -96,8 +98,15 @@ export default {
   width: 100%;
 }
 .column-box {
-  height: 20px;
-  margin: 5px 10px;
+  width: 100%;
+  box-sizing: border-box;
+  /* margin: 5px 10px; */
   text-align: center;
+  border: 1px solid black;
+}
+.column-box input {
+  /* box-sizing: border-box; */
+  width: 100%;
+  padding: 5px 10px;
 }
 </style>

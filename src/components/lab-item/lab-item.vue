@@ -6,7 +6,6 @@
     <lab-textbox v-if="type === 'textbox'" :properties="properties" />
   </view>
 </template>
-
 <script>
 import LabInput from "./lab-input.vue";
 import LabOutput from "./lab-output.vue";

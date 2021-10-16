@@ -16,7 +16,7 @@ export default {
 
 <style>
 .lab-output {
-  margin: 3px 0px 3px 10px;
+  margin: 7px 0px 7px 20px;
 }
 .output {
   margin: 0 3px;

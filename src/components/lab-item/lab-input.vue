@@ -1,7 +1,7 @@
 <template name="lab-input">
   <view class="uni-flex uni-row lab-input">
     <text class="flex-item">{{ properties.frontText }}</text>
-    <input class="input-compute" type="text" v-model="properties.value" />
+    <input class="input-compute" type="digit" :value="properties.value" :placeholder="properties.default" />
     <text class="flex-item">{{ properties.backText }}</text>
   </view>
 </template>
@@ -16,7 +16,7 @@ export default {
 
 <style>
 .lab-input {
-  margin: 3px 0px 3px 10px;
+  margin: 7px 0px 7px 20px;
 }
 .input-compute {
   display: inline-flex;

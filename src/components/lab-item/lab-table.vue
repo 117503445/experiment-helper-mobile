@@ -4,7 +4,8 @@
   <view class="lab-table-container">
     <scroll-view scroll-x="true">
       <!-- style-width may be error -->
-      <uni-grid style="width: 600px" :column="properties.width" :square="false">
+      <LabGridItem :properties="properties"> </LabGridItem>
+      <!-- <uni-grid style="width: 600px" :column="properties.width" :square="false">
         <uni-grid-item
           v-for="item in properties.values"
           style="min-height: 30px; height: 30px; text-align: center"
@@ -12,7 +13,7 @@
         >
           <input type="text" v-model="item.value" style="height: 100%; line-height: 10px" />
         </uni-grid-item>
-      </uni-grid>
+      </uni-grid> -->
       <!-- 撑开scroll -->
       <view class="scroll-box"></view>
     </scroll-view>
@@ -20,14 +21,15 @@
 </template>
 
 <script>
-import { uniGrid } from "@dcloudio/uni-ui";
-import { uniGridItem } from "@dcloudio/uni-ui";
+/* import { uniGrid } from "@dcloudio/uni-ui";
+import { uniGridItem } from "@dcloudio/uni-ui"; */
+import LabGridItem from "./lab-grid-item.vue";
 
 export default {
   name: "lab-table",
   props: ["properties"],
   methods: {},
-  components: { uniGrid, uniGridItem }
+  components: { LabGridItem }
 };
 </script>
 

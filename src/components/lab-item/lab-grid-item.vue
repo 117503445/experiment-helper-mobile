@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="lab-grid-container" :style="{ height: gridHeight }">
     <scroll-view scroll-x="true">
       <view class="lab-grid">
         <view v-for="column in showArr" :key="column.id">
@@ -59,6 +59,7 @@ export default {
     }
 
     let gridWidth = new Array(width);
+    let gridHeight = height * 20 + "px";
     let totalWidth = 0;
     for (let j = 0; j < width; j++) {
       let maxString = 0;
@@ -72,7 +73,8 @@ export default {
       width,
       height,
       showArr,
-      gridWidth
+      gridWidth,
+      gridHeight
     };
   },
   methods: {}
@@ -80,6 +82,9 @@ export default {
 </script>
 
 <style>
+.lab-grid-container {
+  height: 500px;
+}
 .lab-grid {
   display: flex;
   flex: 1;
@@ -91,7 +96,7 @@ export default {
   width: 100%;
 }
 .column-box {
-  /* height: 20px; */
+  height: 20px;
   margin: 5px 10px;
   text-align: center;
 }

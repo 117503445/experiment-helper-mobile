@@ -32,7 +32,7 @@ export default {
       /* util.p("stdOutput", this.binder.getStdOutput(this.items)); */
 
       // util.p(this.binder.getStdInput(this.items));
-      this.binder.calculateLabItems(this.items);
+      this.items = this.binder.calculateLabItems(this.items);
       /*  util.p(this.items); */
     },
     reset() {

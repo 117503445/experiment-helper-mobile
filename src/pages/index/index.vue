@@ -15,7 +15,7 @@ import js from "./debug.json";
 
 export default {
   data() {
-    // util.p(experiments);
+    /* util.p(experiments); */
     let experiment = js;
 
     let binder = new Binder.Binder(experiment);

@@ -46,7 +46,7 @@ export default {
           maxWidth = Math.max(maxWidth, arr[j].default.toString().length);
         }
       }
-      this.gridWidth[i] = maxWidth * 27 + 40 + "rpx";
+      this.gridWidth[i] = maxWidth * 26 + 40 + "rpx";
     }
   }
 };
@@ -63,6 +63,7 @@ export default {
 }
 .column-box input {
   height: 70rpx;
+  min-width: 130rpx;
   padding: 12rpx 12rpx;
 }
 </style>

@@ -14,6 +14,6 @@ export default {
 
 <style>
 .lab-textbox {
-  margin: 7px 0px 7px 20px;
+  margin: 12rpx 0rpx 12rpx 30rpx;
 }
 </style>

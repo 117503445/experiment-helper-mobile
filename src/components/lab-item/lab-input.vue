@@ -16,14 +16,14 @@ export default {
 
 <style>
 .lab-input {
-  margin: 7px 0px 7px 20px;
+  margin: 12rpx 0rpx 12rpx 30rpx;
 }
 .input-compute {
   display: inline-flex;
-  width: 60px;
-  margin: 2px;
+  width: 150rpx;
+  margin: 5rpx;
   text-align: center;
-  border: 1px solid gray;
-  border-radius: 5px;
+  border: 1rpx solid gray;
+  border-radius: 5rpx;
 }
 </style>

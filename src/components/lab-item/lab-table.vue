@@ -24,6 +24,6 @@ export default {
 
 <style scoped>
 .scroll-box {
-  height: 10px;
+  height: 13rpx;
 }
 </style>

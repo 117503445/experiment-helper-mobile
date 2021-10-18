@@ -1,101 +1,124 @@
 {
   "meta": {
-    "name": "平凸透镜曲率半径的测量",
+    "name": "音叉振动频率的测量",
     "author": "117503445",
     "contributors": [],
     "version": "0.0.1",
     "LastEditTime": "2021-10-14 11:03"
   },
   "logic": {
-    "functions": {
-      "this_D_m2_diff": "(function(arr){let arr_r = [];for (let i = 0; i < 5; i++) {arr_r.push(arr[i] - arr[i + 5]);}return arr_r;})"
-    },
+    "functions": {},
     "variables": [
       {
-        "name": "d_yiqi",
-        "comment": "仪器不确定度",
+        "name": "𝝆",
+        "comment": "弦线密度",
         "source": {
           "type": "input",
-          "default": 0.004
+          "default": 0.00356
+        }
+      },
+      {
+        "name": "g",
+        "comment": " 重力加速度",
+        "source": {
+          "type": "input",
+          "default": 9.8
+        }
+      },
+      {
+        "name": "f_0",
+        "comment": "音叉频率标准值",
+        "source": {
+          "type": "input",
+          "default": 100
+        }
+      },
+      {
+        "name": "m",
+        "comment": "砝码质量",
+        "source": {
+          "type": "input",
+          "default": [25, 50, 100, 125, 175]
+        }
+      },
+      {
+        "name": "n",
+        "comment": "波腹数",
+        "source": {
+          "type": "input",
+          "default": [6, 5, 4, 3, 2]
+        }
+      },
+      {
+        "name": "L",
+        "comment": "弦线长",
+        "source": {
+          "type": "input",
+          "default": [76.9, 88, 102.6, 84.5, 67.4]
+        }
+      },
+      {
+        "name": "sqrt_m",
+        "comment": "砝码质量的开方",
+        "source": {
+          "type": "mathjs",
+          "expression": "sqrt(m)"
         }
       },
       {
         "name": "λ",
         "comment": "波长",
         "source": {
-          "type": "input",
-          "default": 589.3
+          "type": "mathjs",
+          "expression": "L./n*2"
         }
       },
       {
-        "name": "D_l",
-        "comment": "D 左",
-        "source": {
-          "type": "input",
-          "default": [19.987, 20.069, 20.153, 20.251, 20.348, 20.421, 20.523, 20.625, 20.728, 20.831]
-        }
-      },
-      {
-        "name": "D_r",
-        "comment": "D 右",
-        "source": {
-          "type": "input",
-          "default": [27.138, 27.061, 26.971, 26.866, 26.783, 26.685, 26.595, 26.487, 26.379, 26.268]
-        }
-      },
-      {
-        "name": "D_m",
-        "comment": "m 级 暗环直径",
+        "name": "f",
+        "comment": "频率",
         "source": {
           "type": "mathjs",
-          "expression": "D_r-D_l"
+          "expression": "10./λ.*sqrt(m.*g./𝝆)"
         }
       },
       {
-        "name": "D_m2",
-        "comment": "m 级 暗环直径的平方",
+        "name": "v",
+        "comment": "波速",
         "source": {
           "type": "mathjs",
-          "expression": "D_m.^2"
+          "expression": "λ.*f/100"
         }
       },
       {
-        "name": "D_m2_diff",
-        "comment": "m 级 暗环直径的平方的差分",
+        "name": "f_a",
+        "comment": "平均频率",
         "source": {
           "type": "mathjs",
-          "expression": "this_D_m2_diff(D_m2)"
+          "expression": "mean(f)"
         }
       },
       {
-        "name": "D_m2_diff_a",
-        "comment": "m 级 暗环直径的平方的差分的平均值 mm^2",
-        "source": {
-          "type": "mathjs-suffix"
-        }
-      },
-      {
-        "name": "D_m2_diff_u",
-        "comment": "m 级 暗环直径的平方的差分的不确定度 mm^2",
+        "name": "Δf",
+        "comment": "频率误差",
         "source": {
           "type": "mathjs",
-          "expression": "sqrt(sum((D_m2_diff-mean(D_m2_diff)).^2)/5 + (d_yiqi*sqrt(3))^2)"
+          "expression": "abs(f_a-f_0)"
         }
       },
       {
-        "name": "R",
-        "comment": "曲率半径 m",
+        "name": "f_result",
+        "comment": "频率实验结果",
         "source": {
           "type": "mathjs",
-          "expression": "D_m2_diff_a / (4 * 5 * λ * 0.001)"
+          "expression": "concat(string(round(f_a,3)),\"±\",string(round(Δf,2)))"
         }
       },
       {
-        "name": "R_u",
-        "comment": "曲率半径的不确定度 mm",
+        "name": "E",
+        "comment": "相对误差",
         "source": {
           "type": "mathjs",
-          "expression": "D_m2_diff_u / (4 * 5 * λ) * 1000000"
+          "expression": "Δf/f_0*100"
         }
       }
     ]
@@ -104,66 +127,80 @@
     {
       "type": "input",
       "properties": {
-        "variableName": "d_yiqi",
-        "frontText": "𝚫仪=",
-        "backText": "mm"
+        "variableName": "𝝆",
+        "frontText": "弦线密度𝝆=",
+        "backText": "𝑔/𝑐𝑚"
       }
     },
     {
       "type": "input",
       "properties": {
-        "variableName": "λ",
-        "frontText": "λ=",
-        "backText": " nm"
+        "variableName": "g",
+        "frontText": "重力加速度g=",
+        "backText": "𝑚/𝑠²"
+      }
+    },
+    {
+      "type": "input",
+      "properties": {
+        "variableName": "f_0",
+        "frontText": "音叉频率标准值𝑓₀=",
+        "backText": "𝐻𝑧"
       }
     },
     {
       "type": "table",
       "properties": {
-        "width": 6,
-        "height": 11,
+        "width": 7,
+        "height": 6,
         "binds": [
           {
             "type": "constant",
-            "value": ["暗环/𝑘", "𝐷左", "𝐷右", "𝐷ₘ/𝑚𝑚", "𝐷²ₘ", "𝐷²ₘ-𝐷²ₘ₋₅"],
+            "value": ["砝码质量𝑚/𝑔", "波腹数", "弦线长L/𝑐𝑚", "√𝑚", "波长", "波速", "频率"],
             "start": [1, 1],
-            "end": [1, 6]
+            "end": [1, 7]
           },
           {
-            "type": "constant",
-            "value": [20, 19, 18, 17, 16, 15, 14, 13, 12, 11],
+            "type": "variable",
+            "name": "m",
             "start": [2, 1],
-            "end": [11, 1]
+            "end": [6, 1]
           },
           {
             "type": "variable",
-            "name": "D_l",
+            "name": "n",
             "start": [2, 2],
-            "end": [11, 2]
+            "end": [6, 2]
           },
           {
             "type": "variable",
-            "name": "D_r",
+            "name": "L",
             "start": [2, 3],
-            "end": [11, 3]
+            "end": [6, 3]
           },
           {
             "type": "variable",
-            "name": "D_m",
+            "name": "sqrt_m",
             "start": [2, 4],
-            "end": [11, 4]
+            "end": [6, 4]
           },
           {
             "type": "variable",
-            "name": "D_m2",
+            "name": "λ",
             "start": [2, 5],
-            "end": [11, 5]
+            "end": [6, 5]
           },
           {
             "type": "variable",
-            "name": "D_m2_diff",
+            "name": "v",
             "start": [2, 6],
-            "end": [11, 6]
+            "end": [6, 6]
+          },
+          {
+            "type": "variable",
+            "name": "f",
+            "start": [2, 7],
+            "end": [6, 7]
           }
         ]
       }
@@ -171,33 +208,33 @@
     {
       "type": "output",
       "properties": {
-        "variableName": "D_m2_diff_a",
-        "frontText": "𝐷²ₘ-𝐷²ₘ₋₅平均值",
-        "backText": "𝑚𝑚²"
+        "variableName": "f_a",
+        "frontText": "平均频率: 𝑓_average=",
+        "backText": " 𝐻𝑧"
       }
     },
     {
       "type": "output",
       "properties": {
-        "variableName": "D_m2_diff_u",
-        "frontText": "𝐷²ₘ-𝐷²ₘ₋₅A类不确定度",
-        "backText": "𝑚𝑚²"
+        "variableName": "Δf",
+        "frontText": "频率误差: Δ𝑓=",
+        "backText": " 𝐻𝑧"
       }
     },
     {
       "type": "output",
       "properties": {
-        "variableName": "R_u",
-        "frontText": "R综合不确定度",
-        "backText": "𝑚𝑚"
+        "variableName": "f_result",
+        "frontText": "实验结果: 𝑓=",
+        "backText": " 𝐻𝑧"
       }
     },
     {
       "type": "output",
       "properties": {
-        "variableName": "R",
-        "frontText": "曲率半径：𝑅=",
-        "backText": "𝑚"
+        "variableName": "E",
+        "frontText": "相对误差: 𝐸=Δ𝑓/𝑓₀=",
+        "backText": " 𝐻𝑧"
       }
     }
   ]

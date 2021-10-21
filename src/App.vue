@@ -8,13 +8,18 @@ export default {
   },
   onHide: function () {
     console.log("App Hide");
+  },
+  beforeMounted: function () {
+    console.log("App Load");
   }
 };
 </script>
 
 <style>
-body {
-  background: #f5f4f4;
+* {
+  padding: 0;
+  margin: 0;
 }
+
 /*每个页面公共css */
 </style>

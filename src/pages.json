@@ -5,12 +5,15 @@
 			"style": {
 				"navigationBarTitleText": "index"
 			}
+		},{
+			"path": "pages/lab-index/lab-index",
+			"style": {
+				"navigationBarTitleText": "lab-index"
+			}
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationStyle": "custom",
 		"backgroundColor": "#F8F8F8"
 	}
 }

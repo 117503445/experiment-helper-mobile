@@ -1,0 +1,78 @@
+[
+  {
+    "tab": "电",
+    "id": 0,
+    "experiments": [
+      { "fullName": "电表的改装与校准", "nickName": "电表的改装与校准" },
+      {
+        "fullName": "电子元件伏安特性的测量",
+        "nickName": "电子元件伏安特性的测量"
+      },
+      { "fullName": "电子偏转特性的测量", "nickName": "示波管" },
+      {
+        "fullName": "灵敏电流计特性的测量",
+        "nickName": "灵敏电流计特性的测量"
+      },
+      { "fullName": "静电场的模拟", "nickName": "静电场的模拟" },
+      { "fullName": "霍尔效应实验", "nickName": "霍尔效应实验" },
+      {
+        "fullName": "直螺线管磁场分布的测量",
+        "nickName": "冲击法测量高电阻"
+      },
+      { "fullName": "简谐振动", "nickName": "简谐振动" },
+      { "fullName": "低电阻的测量", "nickName": "组装直流双臂电桥测量低电阻" }
+    ]
+  },
+  {
+    "tab": "光",
+    "id": 1,
+    "experiments": [
+      { "fullName": "薄透镜焦距的测量", "nickName": "薄透镜焦距的测量" },
+      { "fullName": "衍射光强分布的测量", "nickName": "单缝衍射" },
+      { "fullName": "光的偏振特性的检测", "nickName": "光的偏振特性的检测" },
+      { "fullName": "劈尖干涉", "nickName": "劈尖干涉" },
+      {
+        "fullName": "光电效应和普朗克常量",
+        "nickName": "光电效应和普朗克常量"
+      },
+      { "fullName": "三棱镜顶角的测量", "nickName": "分光计" },
+      {
+        "fullName": "平凸透镜曲率半径的测量",
+        "nickName": "牛顿环"
+      },
+      { "fullName": "激光波长的测量", "nickName": "迈克尔逊" },
+      { "fullName": "光栅光谱的测量", "nickName": "光栅光谱的测量" }
+    ]
+  },
+  {
+    "tab": "力",
+    "id": 2,
+    "experiments": [
+      { "fullName": "单线扭摆实验", "nickName": "单线扭摆实验" },
+      { "fullName": "重力加速度的测量", "nickName": "重力加速度的测量" },
+      { "fullName": "刚体转动惯量的测量", "nickName": "三线摆" },
+      {
+        "fullName": "拉伸法测量杨氏弹性模型",
+        "nickName": "拉伸法测量杨氏弹性模型"
+      }
+    ]
+  },
+  {
+    "tab": "声",
+    "id": 3,
+    "experiments": [
+      { "fullName": "音叉振动频率的测量", "nickName": "电动音叉" },
+      { "fullName": "空气中声速的测量", "nickName": "空气中声速的测量" },
+      { "fullName": "水中声速的测量", "nickName": "水中声速的测量" }
+    ]
+  },
+  {
+    "tab": "其他",
+    "id": 4,
+    "experiments": [
+      { "fullName": "绪论", "nickName": "绪论" },
+      { "fullName": "长度与体积的测量", "nickName": "长度与体积的测量" },
+      { "fullName": "理想气体状态方程", "nickName": "理想气体状态方程" }
+    ]
+  }
+]

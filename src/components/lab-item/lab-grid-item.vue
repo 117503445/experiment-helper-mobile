@@ -2,21 +2,27 @@
   <view class="lab-grid-container" :style="gridHeight">
     <view class="lab-grid">
       <view v-for="column in properties.columns" :key="column.id">
-        <view class="column-box" v-for="item in column.grids" :key="item.id">
-          <input
-            type="text"
-            disabled="true"
-            v-if="item.type === 'constant' || item.type === 'output'"
-            v-model="item.value"
-            :style="{ width: gridWidth[column.id] }"
-          />
-          <input
-            type="digit"
-            v-else-if="item.type === 'input' || item.type === 'variable'"
-            v-model="item.value"
-            :placeholder="item.default"
-            :style="{ width: gridWidth[column.id] }"
-          />
+        <view class="column-box" hover-class="input_now" v-for="item in column.grids" :key="item.id">
+          <view>
+            <input
+              type="text"
+              disabled="true"
+              v-model="item.value"
+              v-if="item.type === 'constant' || item.type === 'output'"
+              :style="{ width: gridWidth[column.id] }"
+            />
+            <input
+              type="digit"
+              v-model="item.value"
+              v-else-if="item.type === 'input' || item.type === 'variable'"
+              :placeholder="item.default"
+              :class="{
+                input_value: item.value != '',
+                input_default: item.value == ''
+              }"
+              :style="{ width: gridWidth[column.id] }"
+            />
+          </view>
         </view>
       </view>
     </view>
@@ -46,7 +52,7 @@ export default {
           maxWidth = Math.max(maxWidth, arr[j].default.toString().length);
         }
       }
-      this.gridWidth[i] = maxWidth * 26 + 40 + "rpx";
+      this.gridWidth[i] = maxWidth * 20 + 40 + "rpx";
     }
   }
 };
@@ -62,8 +68,16 @@ export default {
   border: 1rpx solid black;
 }
 .column-box input {
-  height: 70rpx;
+  height: 50rpx;
   min-width: 130rpx;
   padding: 12rpx 12rpx;
+  font-size: 13px;
+}
+
+.input_default {
+  background: #f5f4f4;
+}
+.input_value {
+  background: #ffffff;
 }
 </style>

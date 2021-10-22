@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { Binder, util, experiments } from "experiment-helper-core";
+import { Binder, util, experiments } from "@t117503445/experiment-helper-core";
 
 import UserRestClient from "@t117503445/s3-database/user-sdk/userRestClient";
 

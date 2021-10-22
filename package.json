@@ -62,7 +62,7 @@
     "@t117503445/s3-database": "^0.1.4",
     "@vue/shared": "^3.0.0",
     "core-js": "^3.6.5",
-    "experiment-helper-core": "^1.9.3",
+    "@t117503445/experiment-helper-core": "^0.1.1",
     "flyio": "^0.6.2",
     "mathjs": "^9.5.0",
     "regenerator-runtime": "^0.12.1",

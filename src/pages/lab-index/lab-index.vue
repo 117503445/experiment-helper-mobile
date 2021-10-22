@@ -12,6 +12,8 @@
 <script>
 import { Binder, util, experiments } from "experiment-helper-core";
 
+import UserRestClient from "@t117503445/s3-database/user-sdk/userRestClient";
+
 export default {
   data() {
     /* util.p(experiments); */
@@ -37,7 +39,13 @@ export default {
     }
   },
   components: {},
-  onLoad: function (option) {
+  onLoad: async function(option) {
+    let userRestClient = new UserRestClient(
+      "https://experiment-helper-static.oss-cn-hangzhou.aliyuncs.com",
+      "announce.json"
+    );
+    console.log(await userRestClient.getAll());
+
     this.experimentName = option.experimentName;
     this.experiment = this.experiments.experiments[option.experimentName];
     this.binder = new Binder.Binder(this.experiment);

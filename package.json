@@ -59,6 +59,7 @@
     "@dcloudio/uni-quickapp-webview": "^2.0.0-32920210927001",
     "@dcloudio/uni-stat": "^2.0.0-32920210927001",
     "@dcloudio/uni-ui": "^1.4.5",
+    "@t117503445/s3-database": "^0.1.4",
     "@vue/shared": "^3.0.0",
     "core-js": "^3.6.5",
     "experiment-helper-core": "^1.9.3",

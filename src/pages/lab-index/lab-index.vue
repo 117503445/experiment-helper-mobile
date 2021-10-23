@@ -39,12 +39,14 @@ export default {
     }
   },
   components: {},
-  onLoad: async function(option) {
+  onLoad: function(option) {
     let userRestClient = new UserRestClient(
       "https://experiment-helper-static.oss-cn-hangzhou.aliyuncs.com",
       "announce.json"
     );
-    console.log(await userRestClient.getAll());
+    userRestClient.getAll().then(data => {
+      console.log(data);
+    });
 
     this.experimentName = option.experimentName;
     this.experiment = this.experiments.experiments[option.experimentName];

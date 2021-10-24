@@ -2363,10 +2363,10 @@
     eval5 "^1.4.6"
     mathjs "^9.5.0"
 
-"@t117503445/s3-database@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.npmjs.org/@t117503445/s3-database/-/s3-database-0.1.4.tgz#2566bee40adb9c7c1cc57cdad85f60d4e7e87bfe"
-  integrity sha512-SXXGxAqHmm0V4vnpL/TdrdHFpo5ER6UIeTM2da15TQn8MyGQyvYBChgOEugh8B5eW9p0/UYosN1OMXFARVKxMA==
+"@t117503445/s3-database@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/@t117503445/s3-database/-/s3-database-0.3.0.tgz#433198d46b7bba33b704711693af75ab1612a901"
+  integrity sha512-0p7mtW5ql2SEpL61Ju9DXsgFWIrgDH0cYLQNf6l2pZafsyTM/n7aA7HVWgymP85P4vCVAdue08bqFo1H1RKWNA==
   dependencies:
     "@aws-sdk/client-s3" "^3.37.0"
     axios "^0.23.0"

@@ -12,7 +12,8 @@
 <script>
 import { Binder, util, experiments } from "@t117503445/experiment-helper-core";
 
-import UserRestClient from "@t117503445/s3-database/user-sdk/userRestClient";
+import UserRestClient from "@t117503445/s3-database/user/UserRestClient";
+import UserClient from "@t117503445/s3-database/user/UserClient";
 
 export default {
   data() {
@@ -45,6 +46,11 @@ export default {
       "announce.json"
     );
     userRestClient.getAll().then(data => {
+      console.log(data);
+    });
+
+    let userClient = new UserClient("https://experiment-helper-static.oss-cn-hangzhou.aliyuncs.com", "contact.json");
+    userClient.get().then(data => {
       console.log(data);
     });
 

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { Binder, util, experiments } from "experiment-helper-core";
+import { Binder, util, experiments } from "@t117503445/experiment-helper-core";
 
 export default {
   data() {

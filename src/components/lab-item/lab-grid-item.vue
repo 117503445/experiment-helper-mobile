@@ -73,11 +73,4 @@ export default {
   padding: 12rpx 12rpx;
   font-size: 13px;
 }
-
-.input_default {
-  background: #f5f4f4;
-}
-.input_value {
-  background: #ffffff;
-}
 </style>

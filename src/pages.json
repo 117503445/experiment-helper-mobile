@@ -10,6 +10,11 @@
 			"style": {
 				"navigationBarTitleText": "lab-index"
 			}
+		},{
+			"path": "pages/banner-index/banner-index",
+			"style": {
+				"navigationBarTitleText": "banner-index"
+			}
 		}
 	],
 	"globalStyle": {

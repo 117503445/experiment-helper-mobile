@@ -2,14 +2,16 @@
   <view class="tabbar-content-container">
     <view v-for="item in items" :key="item.id">
       <view v-if="item.id == index">
-        <view
-          class="experiment"
-          v-for="experiment in item.experiments"
-          :key="experiment.fullName"
-          @click="show_experiment(experiment.fullName)"
-        >
-          {{ experiment.fullName }}
-        </view>
+        <template v-for="experiment in item.experiments">
+          <view
+            v-if="experiments.experiments[experiment.fullName]"
+            class="experiment"
+            @click="show_experiment(experiment.fullName)"
+            :key="experiment.fullName"
+          >
+            {{ experiment.fullName }}
+          </view>
+        </template>
       </view>
     </view>
 
@@ -19,6 +21,7 @@
 
 <script>
 import js from "../../pages/tabs.json";
+import { experiments } from "@t117503445/experiment-helper-core";
 
 export default {
   props: {
@@ -28,8 +31,10 @@ export default {
     }
   },
   data() {
+    console.log(experiments);
     return {
-      items: js
+      items: js,
+      experiments
     };
   },
   methods: {

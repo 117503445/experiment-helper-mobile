@@ -1,21 +1,26 @@
 <template>
   <view class="banner-container">
     <view class="banner-logo">
-      <slot name="banner-logo"></slot>
+      <image
+        class="banner-logo"
+        src="https://experiment-helper-static.oss-cn-hangzhou.aliyuncs.com/images/logo.jpeg"
+        mode="aspectFit"
+      ></image>
     </view>
     <view class="banner-scrolly">
+      <span class="banner-span">|</span>
       <ul class="banner-ul" :class="{ banner_top: animate }">
         <li v-for="item in lists" :key="item.id" @tap="showBannerDetail(item)">
           {{ item.title }}
         </li>
       </ul>
+      <view class="arrow"></view>
     </view>
-    <view class="arrow"></view>
   </view>
 </template>
 
 <script>
-import UserRestClient from "@t117503445/s3-database/user-sdk/userRestClient";
+import UserRestClient from "@t117503445/s3-database/user/UserRestClient";
 
 export default {
   data() {
@@ -40,7 +45,7 @@ export default {
     },
     showBannerDetail(value) {
       console.log(value);
-      let url = "../../pages/banner-index/banner-index?value={{value}}";
+      let url = "../../pages/banner-index/banner-index?value=" + JSON.stringify(value);
       uni.navigateTo({
         url
       });
@@ -63,7 +68,7 @@ export default {
 .banner-container {
   position: relative;
   height: 60rpx;
-  line-height: 50rpx;
+  line-height: 60rpx;
   border: 1px solid black;
   border-radius: 30rpx;
   margin: 20rpx 5rpx 5rpx 5rpx;
@@ -71,48 +76,36 @@ export default {
 }
 .banner-logo {
   display: inline-block;
-  width: 10%;
+  width: 60rpx;
   height: 60rpx;
   vertical-align: top;
   text-align: center;
   border-radius: 50%;
-  background: pink;
-}
-.banner-logo::after {
-  content: "|";
-  color: #cecac8;
-  margin-left: 10rpx;
+  /*   background: pink; */
 }
 .banner-scrolly {
+  position: relative;
   box-sizing: border-box;
   display: inline-block;
-  position: relative;
-  width: 85%;
+  width: 90%;
   height: 60rpx;
   vertical-align: top;
   border-radius: 4rpx;
   overflow: hidden;
-  padding-right: 10rpx;
 }
-.arrow {
-  /* position: absolute;
-  right: 0%;
-  top: 0%; */
+.banner-span {
   display: inline-block;
-  width: 5%;
   height: 60rpx;
-  line-height: 60rpx;
-}
-.arrow::before {
-  content: "";
-  font-family: "Linearicons-Free";
+  width: 2%;
+  color: #cccccc;
 }
 .banner-ul {
   height: 60rpx;
+  width: 98%;
   line-height: 60rpx;
   box-sizing: border-box;
   display: inline-block;
-  text-align: center;
+  /* text-align: center; */
   vertical-align: top;
 }
 .banner_top {
@@ -126,5 +119,19 @@ export default {
   font-weight: 400;
   color: #ff7a39;
   list-style: none;
+}
+.arrow {
+  z-index: -1;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: inline-block;
+  width: 5%;
+  height: 60rpx;
+  line-height: 60rpx;
+}
+.arrow::before {
+  content: "";
+  font-family: "Linearicons-Free";
 }
 </style>

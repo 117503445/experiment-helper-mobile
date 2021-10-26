@@ -2,6 +2,7 @@
   <view class="content">
     <view class="lab-title">{{ experimentName }}</view>
     <lab-item v-for="item in items" :properties="item.properties" :type="item.type" :key="item.id"></lab-item>
+    <view class="lab-warning">数据结果仅供参考，如有差别以实际结果为准</view>
     <view class="content-button">
       <button class="btn-reset" @click="reset">一键清空</button>
       <button class="btn-compute" @click="calculate">计算结果</button>
@@ -62,6 +63,7 @@ export default {
 .content-button {
   display: flex;
   justify-content: space-between;
+
   margin-top: 20px;
 }
 .content-button .btn-reset {
@@ -75,5 +77,12 @@ export default {
 .text-area {
   display: flex;
   justify-content: center;
+}
+.lab-warning {
+  width: 100%;
+  text-align-last: center;
+  color: #f74a4a;
+  font-size: 25rpx;
+  margin-top: 20rpx;
 }
 </style>

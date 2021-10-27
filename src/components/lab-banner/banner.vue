@@ -58,7 +58,7 @@ export default {
       "announce.json"
     );
     this.lists = await userRestClient.getAll();
-    console.log(this.lists);
+    console.log("banner lists", this.lists);
     setTimeout(this.scrolly, 0);
   }
 };

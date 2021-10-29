@@ -1,6 +1,6 @@
 <template>
   <view class="banner-content-container">
-    <image :src="details.image" mode="aspectFill" class="banner-image"> </image>
+    <image :src="details.item.image" mode="aspectFit" class="banner-image"> </image>
   </view>
 </template>
 
@@ -8,7 +8,6 @@
 export default {
   props: {
     details: {
-      type: Object,
       default: ""
     }
   },
@@ -21,6 +20,7 @@ export default {
 <style>
 .banner-content-container {
   height: 1000rpx;
+  margin-top: 100rpx;
 }
 .banner-image {
   width: 100%;

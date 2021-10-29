@@ -10,7 +10,7 @@
     <view class="banner-scrolly">
       <span class="banner-span">|</span>
       <ul class="banner-ul" :class="{ banner_top: animate }">
-        <li v-for="item in lists" :key="item.id" @tap="showBannerDetail(item)">
+        <li v-for="item in lists" :key="item.id" @click="showBannerDetail({ item })">
           {{ item.title }}
         </li>
       </ul>
@@ -40,11 +40,11 @@ export default {
         this.lists.push(cur);
 
         this.animate = false;
-        setTimeout(this.scrolly, 3000);
+        setTimeout(this.scrolly, 0);
       }, 3000);
     },
     showBannerDetail(value) {
-      console.log(value);
+      console.log(value, "qwq");
       let url = "../../pages/banner-index/banner-index?value=" + JSON.stringify(value);
       uni.navigateTo({
         url
@@ -117,7 +117,7 @@ export default {
   height: 100%;
   font-size: 30rpx;
   font-weight: 400;
-  color: #ff7a39;
+  color: #000000;
   list-style: none;
 }
 .arrow {

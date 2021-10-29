@@ -59,12 +59,16 @@ export default {
   color: #ffffff;
   margin: 20rpx 20rpx 0 20rpx;
   border-radius: 20rpx;
+  font-size: 40rpx;
 }
-.tabbar-content-container .experiment:nth-child(odd) {
-  background: #99bad7;
+.tabbar-content-container .experiment:nth-child(2n + 1) {
+  background: #3db8c5;
 }
-.tabbar-content-container .experiment:nth-child(even) {
-  background: #587c9b;
+.tabbar-content-container .experiment:nth-child(4n + 2) {
+  background: #75a7fd;
+}
+.tabbar-content-container .experiment:nth-child(4n) {
+  background: #2f89c6;
 }
 .author {
   font-size: 25rpx;

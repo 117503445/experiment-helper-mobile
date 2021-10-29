@@ -20,10 +20,12 @@ export default {
 }
 .input-compute {
   display: inline-flex;
+  height: 10rpx;
   width: 150rpx;
   margin: 5rpx;
   text-align: center;
   border: 1rpx solid gray;
-  border-radius: 5rpx;
+  border-radius: 12rpx;
+  font-size: 32rpx;
 }
 </style>

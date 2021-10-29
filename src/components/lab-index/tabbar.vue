@@ -44,6 +44,7 @@ export default {
   text-align: center;
   height: 60rpx;
   line-height: 60rpx;
+  font-size: 40rpx;
 }
 .active {
   color: #65d886;

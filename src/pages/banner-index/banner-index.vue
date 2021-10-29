@@ -17,7 +17,9 @@ export default {
     BannerContent
   },
   onLoad(option) {
+    console.log(option);
     this.details = JSON.parse(option.value);
+    console.log(this.details);
   }
 };
 </script>

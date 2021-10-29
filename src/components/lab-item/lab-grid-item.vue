@@ -34,11 +34,25 @@ export default {
   props: ["properties"],
   data() {
     return {
+      arr: "",
       gridWidth: [],
       gridHeight: this.properties.height * 70 + "rpx"
     };
   },
+  methods: {},
   beforeMount() {
+    //预处理表格大小
+    /* this.arr = new Array(this.properties.width * this.properties.height);
+
+    for (let i = 0; i < this.properties.columns.length; i++) {
+      for (let j = 0; j < this.properties.columns[i].grids.length; j++) {
+        let id = this.properties.columns[i].grids[j].id;
+        console.log(this.properties.columns[i].grids[j].id);
+        this.arr[id] = new Proxy(this.properties.columns[i].grids[j], {});
+      }
+    } */
+
+    //预处理表格的宽度
     for (let i = 0; i < this.properties.columns.length; i++) {
       let maxWidth = 0;
 
@@ -65,12 +79,12 @@ export default {
 }
 .column-box {
   text-align: center;
-  border: 1rpx solid black;
+  border: 1rpx solid #cccccc;
 }
 .column-box input {
   height: 50rpx;
   min-width: 130rpx;
   padding: 12rpx 12rpx;
-  font-size: 13px;
+  font-size: 32rpx;
 }
 </style>

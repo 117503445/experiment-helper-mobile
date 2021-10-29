@@ -3,10 +3,12 @@
     <view class="lab-title">{{ experimentName }}</view>
     <lab-item v-for="item in items" :properties="item.properties" :type="item.type" :key="item.id"></lab-item>
     <view class="lab-warning">数据结果仅供参考，如有差别以实际结果为准</view>
+
     <view class="content-button">
-      <button class="btn-reset" @click="reset">一键清空</button>
-      <button class="btn-compute" @click="calculate">计算结果</button>
+      <button class="btn-reset btn-style" @click="reset">一键清空</button>
+      <button class="btn-compute btn-style" @click="calculate">计算结果</button>
     </view>
+    <view class="author">——为之工作室——</view>
   </view>
 </template>
 
@@ -26,10 +28,7 @@ export default {
   },
   methods: {
     calculate() {
-      /* util.p("stdOutput", this.binder.getStdOutput(this.items)); */
-
-      // util.p(this.binder.getStdInput(this.items));
-      util.p(this.items);
+      /* util.p(this.items); */
       this.items = this.binder.calculateLabItems(this.items);
     },
     reset() {
@@ -43,7 +42,6 @@ export default {
     this.experiment = this.experiments.experiments[option.experimentName];
     this.binder = new Binder.Binder(this.experiment);
     this.items = this.binder.getLabItems(true);
-
     console.log(this.items);
   }
 };
@@ -52,26 +50,36 @@ export default {
 <style>
 .content {
   font-size: 13px;
+  width: 100%;
 }
 .content .lab-title {
   height: 80rpx;
   line-height: 80rpx;
   text-align: center;
-  font-weight: 600;
-  margin-top: 20rpx;
+  font-weight: 500;
+  font-size: 40rpx;
+  margin-top: 10rpx;
 }
 .content-button {
   display: flex;
+
   justify-content: space-between;
 
   margin-top: 20px;
 }
-.content-button .btn-reset {
+.content-button .btn-style {
+  flex-basis: 40%;
+  height: 70rpx;
+  line-height: 70rpx;
+  text-align: center;
+  font-size: 30rpx;
   color: #ffffff;
+}
+
+.content-button .btn-reset {
   background: orange;
 }
 .content-button .btn-compute {
-  color: #ffffff;
   background: rgb(142, 201, 55);
 }
 .text-area {
@@ -84,5 +92,11 @@ export default {
   color: #f74a4a;
   font-size: 25rpx;
   margin-top: 20rpx;
+}
+.author {
+  font-size: 25rpx;
+  color: #b5b4b3;
+  text-align: center;
+  margin-top: 10rpx;
 }
 </style>

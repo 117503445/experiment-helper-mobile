@@ -40,8 +40,8 @@ export default {
         this.lists.push(cur);
 
         this.animate = false;
-        setTimeout(this.scrolly, 0);
-      }, 3000);
+        setTimeout(this.scrolly, 1000);
+      }, 2000);
     },
     showBannerDetail(value) {
       console.log(value, "qwq");

@@ -48,8 +48,30 @@ export default {
     this.experimentName = option.experimentName;
     this.experiment = this.experiments.experiments[option.experimentName];
     this.binder = new Binder.Binder(this.experiment);
-    this.items = this.binder.getLabItems(true);
-    console.log(this.items);
+    console.log(this.experiments.experiments[option.experimentName]);
+    try {
+      const value = uni.getStorageSync(this.experimentName);
+      console.log("onLoad");
+      console.log(value);
+      if (value) {
+        console.log("success");
+        this.items = value;
+        console.log(this.items);
+      } else {
+        console.log("failure");
+        this.items = this.binder.getLabItems(true);
+      }
+    } catch (e) {
+      //error
+    }
+  },
+  onShow() {},
+  onUnload() {
+    try {
+      uni.setStorageSync(this.experimentName, this.items);
+    } catch (e) {
+      //error
+    }
   }
 };
 </script>

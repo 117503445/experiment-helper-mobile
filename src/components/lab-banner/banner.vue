@@ -3,7 +3,7 @@
     <view class="banner-logo">
       <image
         class="banner-logo"
-        src="https://experiment-helper-static.oss-cn-hangzhou.aliyuncs.com/images/logo.jpeg"
+        src="https://experiment-helper-static.oss-cn-hangzhou.aliyuncs.com/images/logo.png"
         mode="aspectFit"
       ></image>
     </view>

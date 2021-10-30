@@ -1,5 +1,5 @@
 <template>
-  <view class="lab-image-container">
+  <view class="lab-image-container" @click="previewImage(properties.src)">
     <image :src="properties.src" mode="aspectFit" alt=""></image>
   </view>
 </template>
@@ -10,6 +10,13 @@ export default {
     properties: {
       type: Object,
       default: ""
+    }
+  },
+  methods: {
+    previewImage(url) {
+      uni.previewImage({
+        urls: [url]
+      });
     }
   }
 };

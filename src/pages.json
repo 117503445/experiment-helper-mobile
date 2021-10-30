@@ -15,6 +15,11 @@
 			"style": {
 				"navigationBarTitleText": "XDU物理实验小助手"
 			}
+		},{
+			"path": "pages/feedback-index/feedback-index",
+			"style": {
+				"navigationBarTitleText": "XDU物理实验小助手"
+			}
 		}
 	],
 	"globalStyle": {

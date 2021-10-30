@@ -1,7 +1,7 @@
 <template>
   <view class="content">
     <view class="lab-title">{{ experimentName }}</view>
-    <lab-item v-for="item in items" :properties="item.properties" :type="item.type" :key="item.id"></lab-item>
+    <Lab-item v-for="item in items" :properties="item.properties" :type="item.type" :key="item.id"></Lab-item>
     <view class="lab-warning">数据结果仅供参考，如有差别以实际结果为准</view>
 
     <view class="content-button">
@@ -9,13 +9,21 @@
       <button class="btn-compute btn-style" @click="calculate">计算结果</button>
     </view>
     <view class="author">——为之工作室——</view>
+    <Lab-feedback></Lab-feedback>
+    <view class="space"></view>
   </view>
 </template>
 
 <script>
 import { Binder, util, experiments } from "@t117503445/experiment-helper-core";
+import LabFeedback from "../../components/lab-item/lab-feedback.vue";
+import LabItem from "../../components/lab-item/lab-item.vue";
 
 export default {
+  components: {
+    LabFeedback,
+    LabItem
+  },
   data() {
     /* util.p(experiments); */
     return {
@@ -36,7 +44,6 @@ export default {
       /* console.log(this.items); */
     }
   },
-  components: {},
   onLoad(option) {
     this.experimentName = option.experimentName;
     this.experiment = this.experiments.experiments[option.experimentName];
@@ -49,6 +56,7 @@ export default {
 
 <style>
 .content {
+  position: relative;
   font-size: 13px;
   width: 100%;
 }
@@ -98,5 +106,8 @@ export default {
   color: #b5b4b3;
   text-align: center;
   margin-top: 10rpx;
+}
+.content .space {
+  height: 300rpx;
 }
 </style>

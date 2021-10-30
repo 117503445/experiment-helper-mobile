@@ -1,11 +1,11 @@
-<template name="lab-item">
+<template name="LabItem">
   <view class="lab-item-container">
-    <lab-tablehead v-if="type === 'tablehead'" :properties="properties"></lab-tablehead>
-    <lab-input v-if="type === 'input'" :properties="properties" />
-    <lab-output v-if="type === 'output'" :properties="properties" />
-    <lab-table v-if="type === 'table'" :properties="properties" />
-    <lab-textbox v-if="type === 'textbox'" :properties="properties" />
-    <lab-image v-if="type === 'image'" :properties="properties"></lab-image>
+    <Lab-tablehead v-if="type === 'tablehead'" :properties="properties"></Lab-tablehead>
+    <Lab-input v-if="type === 'input'" :properties="properties" />
+    <Lab-output v-if="type === 'output'" :properties="properties" />
+    <Lab-table v-if="type === 'table'" :properties="properties" />
+    <Lab-textbox v-if="type === 'textbox'" :properties="properties" />
+    <Lab-image v-if="type === 'image'" :properties="properties"></Lab-image>
   </view>
 </template>
 <script>
@@ -17,8 +17,8 @@ import LabImage from "./lab-image.vue";
 import LabTablehead from "./lab-tablehead.vue";
 
 export default {
+  name: "LabItem",
   components: { LabTable, LabInput, LabOutput, LabTextbox, LabImage, LabTablehead },
-  name: "lab-item",
   props: ["properties", "type"],
   methods: {}
 };

@@ -1,6 +1,7 @@
 <template>
   <view class="banner-content-container">
-    <image :src="details.item.image" mode="aspectFit" class="banner-image"> </image>
+    <image :src="details.item.image" mode="aspectFit" class="banner-image" @click="previewImage(details.item.image)">
+    </image>
   </view>
 </template>
 
@@ -9,6 +10,13 @@ export default {
   props: {
     details: {
       default: ""
+    }
+  },
+  methods: {
+    previewImage(url) {
+      uni.previewImage({
+        urls: [url]
+      });
     }
   },
   onLoad() {

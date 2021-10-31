@@ -49,14 +49,27 @@ export default {
     this.experiment = this.experiments.experiments[option.experimentName];
     this.binder = new Binder.Binder(this.experiment);
     console.log(this.experiments.experiments[option.experimentName]);
+    const that = this;
     try {
       const value = uni.getStorageSync(this.experimentName);
       console.log("onLoad");
       console.log(value);
       if (value) {
-        console.log("success");
-        this.items = value;
-        console.log(this.items);
+        uni.showModal({
+          content: "是否恢复上次输入内容",
+          showCancel: true,
+          cancelText: "否",
+          confirmText: "是",
+          success: function (res) {
+            if (res.confirm) {
+              that.items = value;
+              console.log("用户点击确定");
+            } else if (res.cancel) {
+              console.log("用户点击取消");
+              that.items = that.binder.getLabItems(true);
+            }
+          }
+        });
       } else {
         console.log("failure");
         this.items = this.binder.getLabItems(true);

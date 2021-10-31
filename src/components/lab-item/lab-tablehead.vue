@@ -13,7 +13,7 @@ export default {
 <style>
 .lab-tablehead-container .table-head {
   font-weight: 700;
-  font-size: 40rpx;
+  font-size: 36rpx;
   margin: 40rpx 0 10rpx 30rpx;
 }
 </style>

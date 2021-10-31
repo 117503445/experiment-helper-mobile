@@ -115,7 +115,7 @@ export default {
 }
 .banner-ul li {
   height: 100%;
-  font-size: 30rpx;
+  font-size: 28rpx;
   font-weight: 400;
   color: #000000;
   list-style: none;

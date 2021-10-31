@@ -51,6 +51,7 @@ export default {
 <style>
 .feedback-index-container {
   text-align: center;
+  margin-top: 100rpx;
 }
 .feedback-title {
   font-size: 35rpx;

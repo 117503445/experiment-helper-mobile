@@ -10,13 +10,13 @@
     >
       {{ item.tab }}
     </view>
-    <Tannar-content :index="currentIndex"></Tannar-content>
+    <Tabbar-content :index="currentIndex"></Tabbar-content>
   </view>
 </template>
 
 <script>
 import js from "../../pages/tabs";
-import TannarContent from "../lab-index/tabbar-content.vue";
+import TabbarContent from "../lab-index/tabbar-content.vue";
 
 export default {
   data() {
@@ -33,7 +33,7 @@ export default {
     }
   },
   components: {
-    TannarContent
+    TabbarContent
   }
 };
 </script>
@@ -42,12 +42,12 @@ export default {
 .tabbar-container .tabbar {
   display: inline-block;
   text-align: center;
-  height: 60rpx;
-  line-height: 60rpx;
-  font-size: 40rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 30rpx;
 }
 .active {
   color: #65d886;
-  border-bottom: 8rpx solid #65d886;
+  border-bottom: 6rpx solid #65d886;
 }
 </style>

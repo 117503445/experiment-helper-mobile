@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import UserRestClient from "@t117503445/s3-database/user/UserRestClient";
+import {UserRestClient} from "@t117503445/s3-database/user/UserRestClient";
 
 export default {
   data() {

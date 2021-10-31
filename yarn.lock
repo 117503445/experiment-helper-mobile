@@ -2355,18 +2355,18 @@
   resolved "https://registry.nlark.com/@soda/get-current-script/download/@soda/get-current-script-1.0.2.tgz#a53515db25d8038374381b73af20bb4f2e508d87"
   integrity sha1-pTUV2yXYA4N0OBtzryC7Ty5QjYc=
 
-"@t117503445/experiment-helper-core@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.npmjs.org/@t117503445/experiment-helper-core/-/experiment-helper-core-0.7.0.tgz#a155bdadd2126252093e1936054c0147a1d0cf36"
-  integrity sha512-MTTcKzlnQlQrYMQ5pMEYcjcLrcBndhEGZGDBiLywOd8WzNOaGp5n5RKFbGWJdighKlU35KfnPfPNEqM4U62oMQ==
+"@t117503445/experiment-helper-core@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.npmjs.org/@t117503445/experiment-helper-core/-/experiment-helper-core-0.9.0.tgz#47c121728e7bc77a6371f187855c0e0d12b313d5"
+  integrity sha512-vE/h80FQhGOy1bm5fQKWfXmrCWY7bfpLcovBXTGmUZEMTkg8rTleaoBGSATHhUwvQxX9ehUf4Qgq1Mvy0XmOpQ==
   dependencies:
     eval5 "^1.4.6"
     mathjs "^9.5.0"
 
-"@t117503445/s3-database@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.npmjs.org/@t117503445/s3-database/-/s3-database-0.3.0.tgz#433198d46b7bba33b704711693af75ab1612a901"
-  integrity sha512-0p7mtW5ql2SEpL61Ju9DXsgFWIrgDH0cYLQNf6l2pZafsyTM/n7aA7HVWgymP85P4vCVAdue08bqFo1H1RKWNA==
+"@t117503445/s3-database@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@t117503445/s3-database/-/s3-database-1.0.1.tgz#ccbe7c3d360df95d83310d2908ba9b035cd67f9f"
+  integrity sha512-SL5ho+/qXVMt7xqQMvBN9gelEZNE5iJO6IHPbRt+xUFpi5PivhJbFSsXkqQCMB+w7Smj02xv27cfi09qPQmJ5g==
   dependencies:
     "@aws-sdk/client-s3" "^3.37.0"
     axios "^0.23.0"

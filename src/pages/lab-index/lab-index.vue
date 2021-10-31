@@ -36,8 +36,9 @@ export default {
   },
   methods: {
     calculate() {
-      /* util.p(this.items); */
+      console.log("before calculate items", this.items);
       this.items = this.binder.calculateLabItems(this.items);
+      console.log("after calculate items", this.items);
     },
     reset() {
       this.items = this.binder.getLabItems(false);
@@ -48,19 +49,18 @@ export default {
     this.experimentName = option.experimentName;
     this.experiment = this.experiments.experiments[option.experimentName];
     this.binder = new Binder.Binder(this.experiment);
-    console.log(this.experiments.experiments[option.experimentName]);
     const that = this;
     try {
       const value = uni.getStorageSync(this.experimentName);
-      console.log("onLoad");
-      console.log(value);
+      // console.log("onLoad");
+      // console.log(value);
       if (value) {
         uni.showModal({
           content: "是否恢复上次输入内容",
           showCancel: true,
           cancelText: "否",
           confirmText: "是",
-          success: function (res) {
+          success: function(res) {
             if (res.confirm) {
               that.items = value;
               console.log("用户点击确定");
@@ -71,11 +71,11 @@ export default {
           }
         });
       } else {
-        console.log("failure");
+        console.log("unable to get storange");
         this.items = this.binder.getLabItems(true);
       }
     } catch (e) {
-      //error
+      console.error(e);
     }
   },
   onShow() {},
@@ -83,7 +83,7 @@ export default {
     try {
       uni.setStorageSync(this.experimentName, this.items);
     } catch (e) {
-      //error
+      console.error(e);
     }
   }
 };

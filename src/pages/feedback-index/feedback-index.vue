@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import {UserClient} from "@t117503445/s3-database/user/UserClient";
+import { UserClient } from "@t117503445/s3-database/user/UserClient";
 
 export default {
   data() {

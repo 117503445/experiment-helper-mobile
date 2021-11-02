@@ -18,6 +18,7 @@
     <view class="feedback-tips">
       <p>QQ群:{{ msg.qq }}</p>
       <p>长按图片识别二维码</p>
+      <a href="https://qm.qq.com/cgi-bin/qm/qr?k=WKBEf4In2yBIwYLB9eIMnQYm_lTdnyfC&jump_from=webapi">点击跳转</a>
       <p>进入群聊</p>
     </view>
   </view>
@@ -65,7 +66,9 @@ export default {
   height: 250rpx;
   width: 250rpx;
 }
-.feedback-tips p {
+.feedback-tips p,
+a {
+  display: block;
   font-size: 23rpx;
   color: #cccccc;
   margin-bottom: 10rpx;

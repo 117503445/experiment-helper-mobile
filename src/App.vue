@@ -20,6 +20,12 @@ export default {
   padding: 0;
   margin: 0;
 }
+a {
+  text-decoration: none;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
 @font-face {
   font-family: "Linearicons-Free";
   src: url("./fonts/Linearicons-Free.eot?w118d");

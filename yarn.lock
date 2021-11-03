@@ -2355,10 +2355,10 @@
   resolved "https://registry.nlark.com/@soda/get-current-script/download/@soda/get-current-script-1.0.2.tgz#a53515db25d8038374381b73af20bb4f2e508d87"
   integrity sha1-pTUV2yXYA4N0OBtzryC7Ty5QjYc=
 
-"@t117503445/experiment-helper-core@^0.10.1":
-  version "0.10.1"
-  resolved "https://registry.npmjs.org/@t117503445/experiment-helper-core/-/experiment-helper-core-0.10.1.tgz#5ef6b49b7ba8175047155254707cca30eaad8fc9"
-  integrity sha512-xJmq0o0hKsp9WT7LPjSoetGEbzWVitPt3ki4ANieT3MgPT/h7B3HSgLUVnq0up7bA2Kt/45KrlY1pi9Je9J1aA==
+"@t117503445/experiment-helper-core@^0.10.2":
+  version "0.10.2"
+  resolved "https://registry.npmjs.org/@t117503445/experiment-helper-core/-/experiment-helper-core-0.10.2.tgz#9fa6763a2ce2ad11e25d72368bc1123ab53e908f"
+  integrity sha512-0n6Ljzn+BndWbkrG6xeas7vPGv0dbYClxDl8rxwTFq7B2w3UK4Pqr6p5OtggUVMLqcYk2ltIhCLXKl7MZK0YSQ==
   dependencies:
     eval5 "^1.4.6"
     mathjs "^9.5.0"

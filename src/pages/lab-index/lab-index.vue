@@ -31,7 +31,8 @@ export default {
       experiment: "",
       binder: "",
       experiments: experiments,
-      experimentName: ""
+      experimentName: "",
+      isWatch: false
     };
   },
   methods: {
@@ -43,24 +44,34 @@ export default {
     reset() {
       this.items = this.binder.getLabItems(false);
       /* console.log(this.items); */
+    },
+    dataStorage() {
+      console.log("保存");
+      try {
+        uni.setStorageSync(this.experimentName, this.items);
+      } catch (e) {
+        console.error(e);
+      }
     }
   },
   onLoad(option) {
     this.experimentName = option.experimentName;
     this.experiment = this.experiments.experiments[option.experimentName];
     this.binder = new Binder.Binder(this.experiment);
-    const that = this;
+
     try {
       const value = uni.getStorageSync(this.experimentName);
       // console.log("onLoad");
       // console.log(value);
+
       if (value) {
+        const that = this;
         uni.showModal({
           content: "是否恢复上次输入内容",
           showCancel: true,
           cancelText: "否",
           confirmText: "是",
-          success: function(res) {
+          success: function (res) {
             if (res.confirm) {
               that.items = value;
               console.log("用户点击确定");
@@ -68,24 +79,32 @@ export default {
               console.log("用户点击取消");
               that.items = that.binder.getLabItems(true);
             }
+            //第一次不监听
+            that.isWatch = true;
           }
         });
       } else {
         console.log("unable to get storange");
         this.items = this.binder.getLabItems(true);
+        //第一次不监听
+        this.isWatch = true;
       }
     } catch (e) {
       console.error(e);
     }
   },
   onShow() {},
-  onUnload() {
-    try {
-      uni.setStorageSync(this.experimentName, this.items);
-    } catch (e) {
-      console.error(e);
+  watch: {
+    items: {
+      handler: function () {
+        if (this.isWatch === true) {
+          this.dataStorage();
+        }
+      },
+      deep: true
     }
-  }
+  },
+  onUnload() {}
 };
 </script>
 

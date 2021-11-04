@@ -43,6 +43,13 @@ export default {
     reset() {
       this.items = this.binder.getLabItems(false);
       /* console.log(this.items); */
+    },
+    dataStorage() {
+      try {
+        uni.setStorageSync(this.experimentName, this.items);
+      } catch (e) {
+        console.error(e);
+      }
     }
   },
   onLoad(option) {
@@ -60,7 +67,7 @@ export default {
           showCancel: true,
           cancelText: "否",
           confirmText: "是",
-          success: function(res) {
+          success: function (res) {
             if (res.confirm) {
               that.items = value;
               console.log("用户点击确定");
@@ -77,15 +84,13 @@ export default {
     } catch (e) {
       console.error(e);
     }
+
+    setInterval(() => {
+      this.dataStorage();
+    }, 0);
   },
   onShow() {},
-  onUnload() {
-    try {
-      uni.setStorageSync(this.experimentName, this.items);
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  onUnload() {}
 };
 </script>
 

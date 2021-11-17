@@ -20,8 +20,33 @@
 			"style": {
 				"navigationBarTitleText": "XDU物理实验小助手"
 			}
+		},{
+			"path": "pages/personal-center/personal-center",
+			"style": {
+				"navigationBarTitleText": "XDU物理实验小助手"
+			}
 		}
 	],
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#e34969",
+		"borderStyle": "black",
+		"backgroundColor": "#FFFFFF",
+		"iconWidth": "24px",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/logo.png",
+				"selectedIconPath": "static/logo.png",
+				"text": "实验"
+			},
+			{
+				"pagePath": "pages/personal-center/personal-center",
+				"iconPath": "static/logo.png",
+				"selectedIconPath": "static/logo.png",
+				"text": "个人中心"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationStyle": "custom",
 		"backgroundColor": "#F8F8F8"

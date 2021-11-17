@@ -11,6 +11,7 @@
     <view class="author">——为之工作室——</view>
     <Lab-feedback></Lab-feedback>
     <view class="space"></view>
+    <Comment></Comment>
   </view>
 </template>
 
@@ -18,11 +19,13 @@
 import { Binder, util, experiments } from "@t117503445/experiment-helper-core";
 import LabFeedback from "../../components/lab-item/lab-feedback.vue";
 import LabItem from "../../components/lab-item/lab-item.vue";
+import Comment from "../../components/comment/comment.vue";
 
 export default {
   components: {
     LabFeedback,
-    LabItem
+    LabItem,
+    Comment
   },
   data() {
     /* util.p(experiments); */

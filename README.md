@@ -13,6 +13,14 @@ yarn
 yarn serve
 ```
 
+## 发布
+
+填写 ./script/config.json.example
+
+```sh
+yarn deploy
+```
+
 ## TODO
 
 - 评论区

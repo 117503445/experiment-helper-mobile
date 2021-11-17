@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "deploy":"npm run build:h5 && node ./script/deploy.js",
     "serve": "npm run dev:h5",
     "build": "npm run build:h5",
     "build:app-plus": "cross-env NODE_ENV=production UNI_PLATFORM=app-plus vue-cli-service uni-build",
@@ -62,6 +63,7 @@
     "@t117503445/experiment-helper-core": "^0.11.0",
     "@t117503445/s3-database": "^1.0.1",
     "@vue/shared": "^3.0.0",
+    "ali-oss-static-web-deploy": "^0.0.8",
     "core-js": "^3.6.5",
     "flyio": "^0.6.2",
     "mathjs": "^9.5.0",

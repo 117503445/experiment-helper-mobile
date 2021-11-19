@@ -23,23 +23,11 @@ export default {
   methods: {
     login() {
       console.log("qwq");
-      QC.Login(
-        {
-          btnID: "qqLogin",
-          scope: "all",
-          size: "B_s"
-        },
-        function (res, opts) {
-          //登入成功
-          console.log(res);
-          QC.Login.getMe(function (openId, accessToken) {
-            //获取用户的openId
-            console.log("QQOPENID:" + openId);
-            thirdparty(null, null, res.figureurl_qq_2, res.nickname, 1, openId);
-            QC.Login.signOut(); //退出QQ登录调用事件
-          });
-        }
-      );
+      QC.Login.showPopup({
+        appId: 101980045,
+        redirectURI:
+          "https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=101980045&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fexperiment-helper-dev.wizzstudio.com%2F%23%2Fpages%2Fqq-callback"
+      });
     }
   }
 };

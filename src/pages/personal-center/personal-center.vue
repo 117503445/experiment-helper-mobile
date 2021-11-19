@@ -2,9 +2,7 @@
   <view class="personal-center-container">
     <view class="header">
       <img class="header-image" src="../../static/hutao.jpg" alt="" />
-      <view class="header-login">
-        <span id="qqLogin">QQ登录</span>
-      </view>
+      <img class="header-login" src="../../static/qqLogin.png" id="qqLogin" @click="login" />
       <view class="header-tabbar">
         <view @click="currentIndex = 0" :class="{ active: currentIndex == 0 }">你的评论</view>
         <view @click="currentIndex = 1" :class="{ active: currentIndex == 1 }">问题反馈</view>
@@ -12,7 +10,7 @@
     </view>
   </view>
 </template>
-<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="1112141166" charset="utf-8"></script>
+
 
 <script>
 export default {
@@ -68,15 +66,8 @@ export default {
       position: absolute;
       top: 280rpx;
       left: 50%;
-      height: 60rpx;
-      width: 160rpx;
-      line-height: 60rpx;
-      text-align: center;
-      transform: translateX(-83rpx);
-      border-radius: 10rpx;
-      background: #7296d7;
-      color: #ffffff;
-      font-size: 25rpx;
+      width: 200rpx;
+      transform: translateX(-100rpx);
     }
     .header-tabbar {
       display: flex;

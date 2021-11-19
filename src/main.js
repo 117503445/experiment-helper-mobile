@@ -12,7 +12,7 @@ app.$mount();
 
 import axios from "axios";
 
-axios.defaults.adapter = function(config) {
+axios.defaults.adapter = function (config) {
   return new Promise((resolve, reject) => {
     console.log("AXIOS Request", config);
     var settle = require("axios/lib/core/settle");

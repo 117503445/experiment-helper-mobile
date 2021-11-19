@@ -96,7 +96,8 @@
     "h5" : {
         "uniStatistics" : {
             "enable" : true
-        }
+        },
+        "template" : "index.html"
     },
     "mp-kuaishou" : {
         "uniStatistics" : {

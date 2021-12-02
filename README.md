@@ -1,6 +1,6 @@
 # experiment-helper-mobile
 
-实验计算器
+XDU 实验计算器
 
 ## Web 端使用
 

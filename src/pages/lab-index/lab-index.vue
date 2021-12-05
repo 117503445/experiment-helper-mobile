@@ -8,9 +8,10 @@
       <button class="btn-reset btn-style" @click="reset">一键清空</button>
       <button class="btn-compute btn-style" @click="calculate">计算结果</button>
     </view>
-    <view class="author">——为之工作室——</view>
+    <p class="lab-tips">· 数据来自微信公众号-对策府库</p>
     <Lab-feedback></Lab-feedback>
     <view class="space"></view>
+    <view class="author">——为之工作室——</view>
   </view>
 </template>
 
@@ -108,7 +109,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 .content {
   position: relative;
   font-size: 13px;
@@ -160,6 +161,12 @@ export default {
   color: #b5b4b3;
   text-align: center;
   margin-top: 10rpx;
+}
+.lab-tips {
+  list-style: disc;
+  font-size: 22rpx;
+  color: #b5b4b3;
+  margin: 30rpx 0 0 20rpx;
 }
 .content .space {
   height: 300rpx;

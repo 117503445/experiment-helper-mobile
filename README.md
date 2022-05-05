@@ -10,6 +10,8 @@ XDU 实验计算器
 
 ```sh
 yarn
+yarn --registry=https://registry.npmjs.org
+
 yarn serve
 ```
 

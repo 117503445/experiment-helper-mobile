@@ -38,5 +38,12 @@
       "path": "", //启动页面，必选
       "query": "" //启动参数，在页面的onLoad函数里面得到
     }]
+  },
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      // uni-ui 规则如下配置
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+    }
   }
 }

@@ -3,7 +3,9 @@ name: Build
 on:
   pull_request:
     types: [closed]
-
+  push:
+    branches:
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest

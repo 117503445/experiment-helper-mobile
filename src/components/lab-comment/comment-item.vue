@@ -18,7 +18,9 @@
         <!-- 精选与否 -->
         <view class="feature">{{ feature ? '精选评论' : '' }}</view>
         <!-- 回复 -->
-        <view class="reply" @click="handleReply"><text class="iconfont">&#xe6f0;</text></view>
+        <view class="reply" @click="handleReply">
+          <text v-if="from" class="iconfont">&#xe6f0;</text>
+        </view>
         <!-- 点赞 -->
         <view class="like">
           <text :class="['iconfont', like ? 'good' : '']" @click="handleLike">&#xe673;</text>
@@ -99,6 +101,17 @@ export default {
     id: {
       type: Number,
       required: true
+    },
+
+    /**
+     * 标记使用组件位置
+     * * false 实验详情页
+     * * true 评论详情页
+     * @type {boolean}
+     */
+    from: {
+      type: Boolean,
+      required: true
     }
   },
   methods: {
@@ -118,16 +131,21 @@ export default {
           }`,
           method: 'POST'
         });
-        console.log(res);
         if (res.code === 0) {
           uni.showToast({
             icon: 'success',
             duration: 1000
           });
         } else {
-          throw new Error('点赞失败');
+          throw new Error();
         }
       } catch (e) {
+        console.error(e);
+        uni.showToast({
+          title: '操作失败！',
+          icon: 'none',
+          duration: 2000
+        });
         setTimeout(() => {
           this.like = !this.like;
           this.like ? ++this.number : --this.number;
@@ -226,20 +244,20 @@ export default {
 
       // 日期
       .date {
-        flex: 1.5;
+        flex: 2;
 
         color: #aaa;
       }
       // 精选评论
       .feature {
-        flex: 1;
+        flex: 1.5;
 
         color: steelblue;
         text-align: center;
       }
       // 回复
       .reply {
-        flex: 1.5;
+        flex: 1;
 
         text-align: right;
         color: #999;

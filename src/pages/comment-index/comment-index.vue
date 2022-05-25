@@ -6,16 +6,17 @@
     <!-- 评论页head -->
     <view class="comment-head">
       <view class="number">评论 {{ number }}</view>
-      <view class="check" @click="switchCommentStatus()">
-        <view :class="{ select: cType }">默认</view>
-        <view :class="{ select: !cType }">最新</view>
+      <view class="check" @click="switchCommentStatus">
+        <view :data-type="true" :class="{ select: cType }">默认</view>
+        <view :data-type="false" :class="{ select: !cType }">最新</view>
       </view>
     </view>
 
     <!-- 评论区内容 -->
     <comment-item-main
-      v-for="item in comment"
+      v-for="item in comments"
       :key="item.id"
+      :id="item.id"
       :content="item.content"
       :feature="item.isFeatured"
       :like="item.isLiked"
@@ -24,17 +25,19 @@
       :number="item.likeNum"
       :name="name"
     >
-      <template #child v-if="item.childDisscussions && item.childDisscussions.disscussions">
+      <template #child v-if="item.Childs && item.Childs.disscussions">
         <comment-item
           style="padding: 25rpx 0;"
-          v-for="it in item.childDisscussions.disscussions"
+          v-for="it in item.Childs.disscussions"
           :key="it.id"
+          :id="it.id"
           :content="it.content"
           :feature="it.isFeatured"
           :like="it.isLiked"
           :author="it.authorNickName"
           :avatar="it.authorAvatar"
           :number="it.likeNum"
+          :from="true"
         ></comment-item>
       </template>
     </comment-item-main>
@@ -43,11 +46,12 @@
     <view class="comment-input">
       <input
         type="text"
+        maxlength="200"
         v-model="commit"
         placeholder="说说你知道的实验内幕吧!"
         placeholder-class="ph"
       />
-      <button @click="commitComment()">发布</button>
+      <button @click="commitComment">发布</button>
     </view>
   </view>
 </template>
@@ -81,45 +85,7 @@ export default {
        * 评论内容
        * @type {Array<Comment>}
        */
-      comment: [
-        {
-          id: 1,
-          content: '转动惯量是惯性大小的量度',
-          likeNum: 45,
-          isFeatured: true,
-          isLiked: false,
-          authorId: 1,
-          authorNickName: 'fouuu',
-          authorAvatar: './../../static/default-icon.png',
-          childDisscussions: {
-            remainNumber: 6,
-            disscussions: [
-              {
-                id: 3,
-                content: '学会使用智能计时计数器测量时间',
-                likeNum: 18,
-                isFeatured: false,
-                isLiked: false,
-                authorId: 3,
-                authorNickName: 'rngchongchong',
-                authorAvatar: './../../static/default-icon.png',
-                replyId: 1,
-                replyAuthor: 'fouuu'
-              }
-            ]
-          }
-        },
-        {
-          id: 2,
-          content: '学习原理和方法',
-          likeNum: 18,
-          isFeatured: true,
-          isLiked: false,
-          authorId: 2,
-          authorNickName: '你的大弟',
-          authorAvatar: './../../static/default-icon.png'
-        }
-      ],
+      comments: [],
 
       /**
        * 评论数量
@@ -138,10 +104,13 @@ export default {
     /**
      * @function
      * @description 切换评论状态
+     * @param {TouchEvent} e
      * @returns {void}
      */
-    switchCommentStatus() {
-      console.log('switch-status');
+    switchCommentStatus(e) {
+      const { type } = e.target.dataset;
+      this.cType = type;
+      this.getComment();
     },
 
     /**
@@ -151,11 +120,44 @@ export default {
      */
     commitComment() {
       console.log('commit-comment');
+    },
+
+    async getComment() {
+      try {
+        const [, { data: res }] = await uni.request({
+          url: `https://experiment-helper.be.wizzstudio.com/api/experiment/${
+            this.name
+          }/discussionDetail?sortStrategy=${this.cType ? '默认' : '最新'}`,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/x-www-urlencoded',
+            token: 'Bearer ' + this.token
+          },
+          data: {}
+        });
+
+        if (res.code === 0) {
+          const { Number: number, disscussions: comments } = res.data;
+          this.number = number;
+          this.comments = comments;
+        } else {
+          throw new Error();
+        }
+      } catch (e) {
+        console.error(e);
+        uni.showToast({
+          title: '网络异常！',
+          icon: 'error',
+          duration: 2000
+        });
+      }
     }
   },
   onLoad(option) {
     const { experimentName: name } = option;
     this.name = name;
+
+    this.getComment();
   }
 };
 </script>

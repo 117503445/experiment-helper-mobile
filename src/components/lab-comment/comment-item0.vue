@@ -17,6 +17,8 @@
         <view class="date">2022-04-17</view>
         <!-- 精选与否 -->
         <view class="feature">{{ feature ? '精选评论' : '' }}</view>
+        <!-- 回复 -->
+        <view class="reply"><text class="iconfont">&#xe6f0;</text></view>
         <!-- 点赞 -->
         <view class="like">
           <text :class="['iconfont', like ? 'good' : '']" @click="handleLike()">&#xe673;</text>
@@ -180,7 +182,7 @@ export default {
 
       // 日期
       .date {
-        flex: 1;
+        flex: 1.5;
 
         color: #aaa;
       }
@@ -189,11 +191,29 @@ export default {
         flex: 1;
 
         color: steelblue;
-        text-align: center;
+        text-align: left;
+      }
+      // 回复
+      .reply {
+        flex: 1.5;
+
+        text-align: right;
+        font-size: 30rpx;
+        color: #999;
+
+        .iconfont {
+          font-family: 'iconfont' !important;
+          // font-size: 16px;
+          font-style: normal;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+
+          font-size: 32rpx;
+        }
       }
       // 点赞
       .like {
-        flex: 2;
+        flex: 1;
 
         font-size: 30rpx;
         color: #aaa;
@@ -207,7 +227,6 @@ export default {
           -moz-osx-font-smoothing: grayscale;
 
           font-size: 35rpx;
-          padding: 0 10rpx;
         }
 
         // 已点赞

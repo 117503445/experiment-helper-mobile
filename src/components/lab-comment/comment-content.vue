@@ -26,12 +26,13 @@
         class="comment-info-item"
         v-for="item in comment"
         :key="item.id"
+        :id="item.id"
         :content="item.content"
         :feature="item.isFeatured"
-        :like="item.isLiked"
+        :like.sync="item.isLiked"
         :author="item.authorNickName"
         :avatar="item.authorAvatar"
-        :number="item.likeNum"
+        :number.sync="item.likeNum"
         :name="name"
       ></Comment-item>
     </view>
@@ -51,13 +52,14 @@ import CommentItem from './../../components/lab-comment/comment-item.vue';
 
 export default {
   name: 'LabComment',
+
   components: {
     /**
-     * 评论单条模块
-     * @type {Component}
+     * 一级评论组件
      */
     CommentItem
   },
+
   props: {
     /**
      * 实验名称
@@ -68,8 +70,15 @@ export default {
       required: true
     }
   },
+
   data() {
     return {
+      /**
+       * token
+       * @type {string}
+       */
+      token: null,
+
       /**
        * 评论用户输入内容
        * @type {string}
@@ -83,40 +92,25 @@ export default {
       avatar: '../../static/default-icon.png',
 
       /**
+       * 用户昵称
+       * @type {string}
+       */
+      nickname: '',
+
+      /**
        * 评论总数量
        * @type {number}
        */
-      number: 18,
+      number: 0,
 
       /**
        * 评论详细内容
        * @type {Array<Comment>}
        */
-      comment: [
-        {
-          id: 1,
-          content: '转动惯量是惯性大小的量度',
-          likeNum: 45,
-          isFeatured: true,
-          isLiked: true,
-          authorId: 1,
-          authorNickName: 'fouuu',
-          authorAvatar: '../../static/default-icon.png'
-        },
-        {
-          id: 2,
-          content:
-            '学习原理和方法学习原理和方法学习原理和方法学习原理和方法学习原理和方法学习原理和方法学习原理和方法学习原理和方法学习原理和方法学习原理和方法学习原理和方法学习原理和方法学习原理和方法',
-          likeNum: 18,
-          isFeatured: true,
-          isLiked: false,
-          authorId: 2,
-          authorNickName: '你的大弟',
-          authorAvatar: '../../static/default-icon.png'
-        }
-      ]
+      comment: []
     };
   },
+
   methods: {
     /**
      * @function
@@ -125,7 +119,6 @@ export default {
      * @returns {void}
      */
     showComment() {
-      console.log('showcomment');
       uni.navigateTo({
         url: `./../../pages/comment-index/comment-index?experimentName=${this.name}`
       });
@@ -133,12 +126,129 @@ export default {
 
     /**
      * @function
+     * @async
      * @description 用户添加评论
      * @returns {void}
      */
-    addComment() {
-      console.log('addcomment');
+    async addComment() {
+      // 检测评论是否为空
+      const content = this.commit.trim();
+      if (content.length === 0) {
+        uni.showToast({
+          title: '评论不可为空！',
+          icon: 'error',
+          duration: 2000
+        });
+        return;
+      }
+
+      // 检测是否已有token
+      if (!this.token) {
+        this.$emit('login');
+      }
+
+      // 提交评论
+      try {
+        const { res: data } = await uni.request({
+          url: `https://experiment-helper.be.wizzstudio.com/api/experiment/${
+            this.name
+          }/discussionPost`,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            token: 'Bearer ' + this.token
+          },
+          data: {
+            content: this.commit
+          }
+        });
+        if (res.code === 0) {
+          uni.showToast({
+            title: '评论成功！',
+            icon: 'success',
+            duration: 2000
+          });
+
+          // （请求成功）更新评论数量
+          ++this.number;
+        } else {
+          throw new Error();
+        }
+      } catch (e) {
+        console.error(e);
+        uni.showToast({
+          title: '评论失败！',
+          icon: 'error',
+          duration: 2000
+        });
+      }
+    },
+
+    /**
+     * @function
+     * @async
+     * @description 请求获取评论数据
+     * @returns {void}
+     */
+    async getComment() {
+      try {
+        const [, { data: res }] = await uni.request({
+          url: `https://experiment-helper.be.wizzstudio.com/api/experiment/${
+            this.name
+          }/discussionOverview`,
+          method: 'GET',
+          header: {
+            'Content-Type': 'application/json',
+            token: 'Bearer ' + this.token
+          }
+        });
+        if (res.code === 0) {
+          const { Number: number, topDisscussions: comments } = res.data;
+          this.number = number;
+          this.comment = comments;
+        } else {
+          throw new Error();
+        }
+      } catch (e) {
+        console.error(e);
+        uni.showToast({
+          title: '网络异常！',
+          icon: 'error',
+          duration: 2000
+        });
+      }
+    },
+
+    /**
+     * @function
+     * @async
+     * @description 登录，抛给外层lab页面处理
+     * @returns {void}
+     */
+    handleLogin() {
+      this.$emit('login');
     }
+  },
+
+  beforeMount() {
+    try {
+      this.token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDI4Mzk5ODMsImlhdCI6MTY0MjIzNTE4MywidXNlciI6eyJpZCI6MSwiY3JlYXRlZEF0IjoiMjAyMS0wMy0xNCAxMzoyOToyNCIsInVwZGF0ZWRBdCI6IjIwMjItMDEtMTMgMTc6NTk6MDciLCJkZWxldGVkQXQiOiIiLCJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiIkMmEkMTIkbWlFM3hFcFNrTERJS0ZKMFpPTWtzZVJqeWpsS3liejV0RmZNTU5HY1lMTk5veVdTaEN4SHUiLCJhdmF0YXIiOiIifX0.suC_-fgGaAiMP4ZPjtwpHpeclfFOOkh5JX3kNHkVjEw';
+      // this.token = uni.getStorageSync('token');
+      const bbbbb = uni.base64ToArrayBuffer(this.token);
+      console.log(bbbbb);
+    } catch (e) {
+      console.error(e);
+    }
+
+    try {
+      this.avatar = uni.getStorageSync('avatar');
+      this.nickname = uni.getStorageSync('nickname');
+    } catch (e) {
+      console.error(e);
+    }
+
+    this.getComment();
   }
 };
 </script>

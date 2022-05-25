@@ -93,11 +93,40 @@ export default {
   methods: {
     /**
      * @function
+     * @async
      * @description 评论点赞
      * @return {void}
      */
-    handleLike() {
-      console.log('like');
+    async handleLike() {
+      this.like = !this.like;
+      this.like ? ++this.number : --this.number;
+      try {
+        const [, { data: res }] = await uni.request({
+          url: `https://experiment-helper.be.wizzstudio.com/api/discussion/${this.id}/${
+            this.like ? 'like' : 'unlike'
+          }`,
+          method: 'POST'
+        });
+        if (res.code === 0) {
+          uni.showToast({
+            icon: 'success',
+            duration: 1000
+          });
+        } else {
+          throw new Error();
+        }
+      } catch (e) {
+        console.error(e);
+        uni.showToast({
+          title: '操作失败！',
+          icon: 'none',
+          duration: 2000
+        });
+        setTimeout(() => {
+          this.like = !this.like;
+          this.like ? ++this.number : --this.number;
+        }, 1500);
+      }
     }
   }
 };
@@ -182,20 +211,20 @@ export default {
 
       // 日期
       .date {
-        flex: 1.5;
+        flex: 2;
 
         color: #aaa;
       }
       // 精选评论
       .feature {
-        flex: 1;
+        flex: 1.5;
 
         color: steelblue;
         text-align: left;
       }
       // 回复
       .reply {
-        flex: 1.5;
+        flex: 1;
 
         text-align: right;
         font-size: 30rpx;

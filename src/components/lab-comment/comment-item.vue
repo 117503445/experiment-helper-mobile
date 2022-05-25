@@ -17,9 +17,11 @@
         <view class="date">2022-04-17</view>
         <!-- 精选与否 -->
         <view class="feature">{{ feature ? '精选评论' : '' }}</view>
+        <!-- 回复 -->
+        <view class="reply" @click="handleReply"><text class="iconfont">&#xe6f0;</text></view>
         <!-- 点赞 -->
         <view class="like">
-          <text :class="['iconfont', like ? 'good' : '']" @click="handleLike()">&#xe673;</text>
+          <text :class="['iconfont', like ? 'good' : '']" @click="handleLike">&#xe673;</text>
           {{ number }}
         </view>
       </view>
@@ -30,6 +32,11 @@
 <script>
 export default {
   name: 'CommentItem',
+  data() {
+    return {
+      token: ''
+    };
+  },
   props: {
     /**
      * 评论内容
@@ -83,17 +90,61 @@ export default {
     number: {
       type: Number,
       default: 0
+    },
+
+    /**
+     * 评论id
+     * @type {number}
+     */
+    id: {
+      type: Number,
+      required: true
     }
   },
   methods: {
     /**
      * @function
+     * @async
      * @description 评论点赞
      * @return {void}
      */
-    handleLike() {
-      console.log('like');
-    }
+    async handleLike() {
+      this.like = !this.like;
+      this.like ? ++this.number : --this.number;
+      try {
+        const [, { data: res }] = await uni.request({
+          url: `https://experiment-helper.be.wizzstudio.com/api/discussion/${this.id}/${
+            this.like ? 'like' : 'unlike'
+          }`,
+          method: 'POST'
+        });
+        console.log(res);
+        if (res.code === 0) {
+          uni.showToast({
+            icon: 'success',
+            duration: 1000
+          });
+        } else {
+          throw new Error('点赞失败');
+        }
+      } catch (e) {
+        setTimeout(() => {
+          this.like = !this.like;
+          this.like ? ++this.number : --this.number;
+        }, 1500);
+      }
+    },
+
+    /**
+     * 回复信息
+     */
+    handleReply() {}
+  },
+  beforeMount() {
+    try {
+      const token = uni.getStorageSync('token');
+      this.token = token;
+    } catch (e) {}
   }
 };
 </script>
@@ -186,9 +237,27 @@ export default {
         color: steelblue;
         text-align: center;
       }
+      // 回复
+      .reply {
+        flex: 1.5;
+
+        text-align: right;
+        color: #999;
+
+        .iconfont {
+          font-family: 'iconfont' !important;
+          // font-size: 16px;
+          font-style: normal;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+
+          font-size: 32rpx;
+          padding: 0 10rpx;
+        }
+      }
       // 点赞
       .like {
-        flex: 2;
+        flex: 1;
 
         font-size: 30rpx;
         color: #aaa;
@@ -202,7 +271,6 @@ export default {
           -moz-osx-font-smoothing: grayscale;
 
           font-size: 35rpx;
-          padding: 0 10rpx;
         }
 
         // 已点赞

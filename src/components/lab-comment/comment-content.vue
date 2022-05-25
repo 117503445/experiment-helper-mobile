@@ -34,6 +34,7 @@
         :avatar="item.authorAvatar"
         :number.sync="item.likeNum"
         :name="name"
+        :from="false"
       ></Comment-item>
     </view>
 
@@ -55,7 +56,7 @@ export default {
 
   components: {
     /**
-     * 一级评论组件
+     * 二级评论组件
      */
     CommentItem
   },
@@ -231,22 +232,14 @@ export default {
   },
 
   beforeMount() {
-    try {
-      this.token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDI4Mzk5ODMsImlhdCI6MTY0MjIzNTE4MywidXNlciI6eyJpZCI6MSwiY3JlYXRlZEF0IjoiMjAyMS0wMy0xNCAxMzoyOToyNCIsInVwZGF0ZWRBdCI6IjIwMjItMDEtMTMgMTc6NTk6MDciLCJkZWxldGVkQXQiOiIiLCJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiIkMmEkMTIkbWlFM3hFcFNrTERJS0ZKMFpPTWtzZVJqeWpsS3liejV0RmZNTU5HY1lMTk5veVdTaEN4SHUiLCJhdmF0YXIiOiIifX0.suC_-fgGaAiMP4ZPjtwpHpeclfFOOkh5JX3kNHkVjEw';
-      // this.token = uni.getStorageSync('token');
-      const bbbbb = uni.base64ToArrayBuffer(this.token);
-      console.log(bbbbb);
-    } catch (e) {
-      console.error(e);
-    }
+    // this.token =
+    // 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDI4Mzk5ODMsImlhdCI6MTY0MjIzNTE4MywidXNlciI6eyJpZCI6MSwiY3JlYXRlZEF0IjoiMjAyMS0wMy0xNCAxMzoyOToyNCIsInVwZGF0ZWRBdCI6IjIwMjItMDEtMTMgMTc6NTk6MDciLCJkZWxldGVkQXQiOiIiLCJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiIkMmEkMTIkbWlFM3hFcFNrTERJS0ZKMFpPTWtzZVJqeWpsS3liejV0RmZNTU5HY1lMTk5veVdTaEN4SHUiLCJhdmF0YXIiOiIifX0.suC_-fgGaAiMP4ZPjtwpHpeclfFOOkh5JX3kNHkVjEw';
+    this.token = uni.getStorageSync('token');
+    // const bbbbb = window.atob(this.token);
+    // console.log({ bbbbb });
 
-    try {
-      this.avatar = uni.getStorageSync('avatar');
-      this.nickname = uni.getStorageSync('nickname');
-    } catch (e) {
-      console.error(e);
-    }
+    this.avatar = uni.getStorageSync('avatar') || '/static/default-icon.png';
+    this.nickname = uni.getStorageSync('nickname') || '未登录';
 
     this.getComment();
   }

@@ -69,9 +69,6 @@ export default {
     },
     handleLogin() {
       console.log('login');
-      window.open(
-        'https://casdoor.oss.117503445.top/login/oauth/authorize?client_id=32edf0737c6fbce7efec&response_type=code&redirect_uri=https://experiment-helper.wizzstudio.com/pages/callback&scope=read&state=casdoor'
-      );
     }
   },
   onLoad(option) {

@@ -1,0 +1,35 @@
+## 代码结构
+
+- src                            源代码目录
+  - components                   组件目录
+    - lab-banner                 公共相关组件目录
+      - banner.vue               公告横幅组件（首页）
+      - banner-content.vue       公告信息内容组件（公告信息页）
+    - lab-comment                评论区相关组件目录
+      - comment-content          实验详情评论区主组件（其余一级评论均为主组件包裹）
+      - comment-item0            实验详情评论区组件（一级评论）
+      - comment-item             实验详情评论区组件（二级评论）
+    - lab-index
+      - tabbar.vue (TabbarContent)   实验内容整体组件
+      - tabbar-content.vue           实验内容列表组件
+    - lab-item
+      - lab-feedback.vue
+      - lab-grid-item.vue
+      - lab-image.vue
+      - lab-input.vue
+      - lab-item.vue
+      - lab-output.vue
+      - lab-table.vue
+      - lab-tablehead.vue
+      - lab-textbox.vue
+  - pages                        页面目录
+    - banner-index               公告信息页
+      - banner-index.vue (BannerContent)
+    - comment-index              评论详情页
+      - comment-index.vue
+    - feedback-index             问题反馈页
+      - feedback-index.vue (...)
+    - index                      首页（选取实验项目）
+      - index.vue (Banner Tabbar)
+    - lab-index                  实验详情页
+      - lab-index.vue (LabFeedback LabItem LabComment)

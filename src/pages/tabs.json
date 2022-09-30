@@ -20,7 +20,8 @@
         "nickName": "冲击法测量高电阻"
       },
       { "fullName": "简谐振动", "nickName": "简谐振动" },
-      { "fullName": "低电阻的测量", "nickName": "组装直流双臂电桥测量低电阻" }
+      { "fullName": "低电阻的测量", "nickName": "组装直流双臂电桥测量低电阻" },
+      { "fullName": "电容与高电阻的测量", "nickName": "电容与高电阻的测量" }
     ]
   },
   {

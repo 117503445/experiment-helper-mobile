@@ -9,8 +9,8 @@ XDU 实验计算器
 ## 本地开发
 
 ```sh
-yarn install --ignore-engines # this project only support node version <= 17, but the current node version is 18.
-yarn --registry=https://registry.npmjs.org
+yarn install --ignore-engines # this project only support node version <= 17, but the current node version is higher than 17.
+yarn --registry=https://registry.npmjs.org --ignore-engines
 
 yarn serve
 ```

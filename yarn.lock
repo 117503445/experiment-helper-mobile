@@ -2529,10 +2529,10 @@
   resolved "https://registry.npmjs.org/@soda/get-current-script/-/get-current-script-1.0.2.tgz#a53515db25d8038374381b73af20bb4f2e508d87"
   integrity sha512-T7VNNlYVM1SgQ+VsMYhnDkcGmWhQdL0bDyGm5TlQ3GBXnJscEClUUOKduWTmm2zCnvNLC1hc3JpuXjs/nFOc5w==
 
-"@t117503445/experiment-helper-core@^0.11.16":
-  version "0.11.16"
-  resolved "https://registry.npmjs.org/@t117503445/experiment-helper-core/-/experiment-helper-core-0.11.16.tgz#541bbd28aaaadee4c09c7855d7d7f1f391c82d7d"
-  integrity sha512-7FTtf2e9/jes9Zr9cKCelimwAWeaXrzgbySlX8w2tQrWauSDS0k2mGJcB+DiH6oRZW1zGC3UtTkHbG6Jwty3mw==
+"@t117503445/experiment-helper-core@^0.11.17":
+  version "0.11.17"
+  resolved "https://registry.npmjs.org/@t117503445/experiment-helper-core/-/experiment-helper-core-0.11.17.tgz#f07416817a20bac7485236e70cf051e720837862"
+  integrity sha512-skvWxWZmGmz4auvP4BPRnOoMVrHpqGxtiSA20sdq5k07mwyuQTNWRQoj0dR4fNoP4wNFQ+5LGxNhQ/GyyDUmHg==
   dependencies:
     eval5 "^1.4.6"
     mathjs "^9.5.0"

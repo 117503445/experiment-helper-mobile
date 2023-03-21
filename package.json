@@ -42,7 +42,7 @@
     "test:mp-weixin": "cross-env UNI_PLATFORM=mp-weixin jest -i"
   },
   "dependencies": {
-    "@t117503445/experiment-helper-core": "^0.11.16",
+    "@t117503445/experiment-helper-core": "^0.11.17",
     "@t117503445/s3-database": "^1.0.1",
     "@dcloudio/uni-app-plus": "^2.0.0-32920210927001",
     "@dcloudio/uni-cli-i18n": "^2.0.0-32920210927001",

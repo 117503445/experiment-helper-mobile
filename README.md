@@ -11,7 +11,7 @@ XDU 实验计算器
 ```sh
 yarn install --ignore-engines # this project only support node version <= 17, but the current node version is higher than 17, so use --ignore-engines
 # or
-yarn install --registry=https://registry.npmjs.org --ignore-engines # use --registry to get the lasest version of core
+yarn install --registry=https://registry.npmjs.org --ignore-engines # use --registry to get the latest version of core
 
 yarn serve
 ```
